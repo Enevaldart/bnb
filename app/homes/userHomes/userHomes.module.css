@@ -1,0 +1,78 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.homeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.homeCard {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.homeCard:hover {
+  transform: translateY(-5px);
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.button {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0051cc;
+}
+
+.loadingText,
+.errorText,
+.noHomesText {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+.errorText {
+  color: #ff0000;
+}
+
+@media (max-width: 768px) {
+  .homeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

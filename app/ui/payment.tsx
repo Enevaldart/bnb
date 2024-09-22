@@ -23,7 +23,7 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
   return (
     <div className="check-rt">
       <div className="check">
-        <p>{price}<span>night</span></p>
+        <p>Ksh {price}/=<span>night</span></p>
         <form action="" className="grid grid-cols-2 grid-rows-2">
           <div className="date col-span-1 row-span-1">
             <label>Check-in</label>

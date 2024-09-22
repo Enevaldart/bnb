@@ -52,7 +52,7 @@ export default function UserHomes() {
             <Card
               key={home._id}
               rate={home.rating}
-              hrefLink={`/homes/update/${home._id}`}
+              hrefLink={`/homes/userHomes/${home._id}`}
               county={home.name}
               region={home.location}
               specific={home.description}

@@ -7,6 +7,7 @@ import React from "react";
 import { MdOutlineBed } from "react-icons/md";
 import CustomCarousel from "@/app/ui/carousel";
 import { MdOutlineBedroomParent } from "react-icons/md";
+import styles from "./id.module.css";
 
 interface Home {
   _id: string;
@@ -100,8 +101,12 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
             </ul>
           </div>
         </div>
-        <div>
+        <div className={styles.paymn}>
           <Payment price={home.price} description={home.description} />
+          <div className={styles.btn}>
+            <a href={`/homes/update/${id}`}>Update home</a>
+            <a href="#">Delete home</a>
+          </div>
         </div>
       </div>
       <hr />
