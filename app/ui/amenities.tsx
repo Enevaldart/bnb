@@ -1,38 +1,41 @@
-import "../globals.css";
-import React from 'react';
-import { TbBeach } from "react-icons/tb";
-import { TbSwimming } from "react-icons/tb";
-import { TbAirConditioning } from "react-icons/tb";
+// app/Amenities/amen.tsx
+import { TbBeach, TbSwimming, TbAirConditioning, TbParking, TbBrandCarbon } from "react-icons/tb";
 import { TiWiFi } from "react-icons/ti";
 import { BiSolidBinoculars } from "react-icons/bi";
 import { MdOutlineSecurity } from "react-icons/md";
-import { TbParking } from "react-icons/tb";
-import { PiWashingMachine } from "react-icons/pi";
-import { PiCourtBasketball } from "react-icons/pi";
-import { FaKitchenSet } from "react-icons/fa6";
-import { TbBrandCarbon } from "react-icons/tb";
+import { PiWashingMachine, PiCourtBasketball } from "react-icons/pi";
+import { FaKitchenSet } from "react-icons/fa";
 
+interface AmenitiesProps {
+  amenities: string[]; // Declare the amenities prop
+}
 
-export default function Amenities(){
-    return(
-        <div className="offers">
-      <h2>
-        What this place offers
-      </h2>
-      <ul>
-        <li><TbBeach />Beach access | Beachfront</li>
-        <li><TbSwimming />Swimming pool</li>
-        <li><TbAirConditioning />Air conditioning</li>
-        <li><TiWiFi />Wifi connection</li>
-        <li><BiSolidBinoculars />Amazing view</li>
-        <li><MdOutlineSecurity />Security</li>
-        <li><PiWashingMachine />Washing machine</li>
-        <li><PiCourtBasketball />Basketball coat</li>
-        <li><FaKitchenSet />Kitchen</li>
-        <li><TbParking />Free parking</li>
-        <li className="absent"><TbBrandCarbon />Carbon monoxide alarm</li>
-      </ul> 
-     {/*<button>Show all 33 amenities</button>*/}
-    </div>
-    );
+const amenitiesIconMap: { [key: string]: JSX.Element } = {
+  "Beach access | Beachfront": <TbBeach />,
+  "Swimming pool": <TbSwimming />,
+  "Air conditioning": <TbAirConditioning />,
+  "Wifi connection": <TiWiFi />,
+  "Amazing view": <BiSolidBinoculars />,
+  "Security": <MdOutlineSecurity />,
+  "Washing machine": <PiWashingMachine />,
+  "Basketball court": <PiCourtBasketball />,
+  "Kitchen": <FaKitchenSet />,
+  "Free parking": <TbParking />,
+  "Carbon monoxide alarm": <TbBrandCarbon />,
 };
+
+export default function Amenities({ amenities }: AmenitiesProps) {
+  return (
+    <div className="offers">
+      <h2>What this place offers</h2>
+      <ul>
+        {amenities.map((amenity, index) => (
+          <li key={index}>
+            {amenitiesIconMap[amenity] || "🔧"} {amenity}
+          </li>
+        ))}
+      </ul>
+      {/*<button>Show all 33 amenities</button>*/}
+    </div>
+  );
+}

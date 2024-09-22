@@ -11,6 +11,7 @@ const AddHomeForm = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [imageUrl, setImageUrl] = useState([""]); // Array to store image URLs
+  const [amenities, setAmenities] = useState([""]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -31,6 +32,7 @@ const AddHomeForm = () => {
       description,
       price: parseFloat(price), // Convert price to a number
       imageUrl, // Image URLs as an array
+      amenities,
     };
 
     try {
@@ -112,6 +114,16 @@ const AddHomeForm = () => {
           id="imageUrl"
           value={imageUrl[0]} // Access the first image URL in the array
           onChange={(e) => setImageUrl([e.target.value])} // Set the array with one image URL
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="amenities">Amenities:</label>
+        <input
+          type="text"
+          id="amenities"
+          value={amenities[0]} // Access the first image URL in the array
+          onChange={(e) => setAmenities([e.target.value])} // Set the array with one image URL
           required
         />
       </div>

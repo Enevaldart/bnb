@@ -59,6 +59,9 @@ const MobileMenu = () => {
             <li className={styles.username}>
               <a href="#">{username}</a>
             </li>
+            <li>
+              <a href="/homes/userHomes">My Homes</a>
+            </li>
           </>
         ) : (
           <li>

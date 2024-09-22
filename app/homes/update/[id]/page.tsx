@@ -134,6 +134,26 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
             required
           />
         </div>
+        <div>
+          <label>Amenities</label>
+          <input
+            type="text"
+            name="amenities"
+            value={homeData.amenities}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Images</label>
+          <input
+            type="text"
+            name="imageUrl"
+            value={homeData.imageUrl}
+            onChange={handleChange}
+            required
+          />
+        </div>
         <button type="submit">Update Home</button>
       </form>
     </div>
