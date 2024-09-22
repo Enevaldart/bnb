@@ -1,13 +1,16 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Rules from "@/app/ui/rules";
 import Payment from "@/app/ui/payment";
 import "@/app/globals.css";
 import Collage from "@/app/ui/collages";
 import Assets from "@/app/ui/mainAssets";
-import React from "react";
-import { MdOutlineBed } from "react-icons/md";
+import { MdOutlineBed, MdOutlineBedroomParent } from "react-icons/md";
 import CustomCarousel from "@/app/ui/carousel";
-import { MdOutlineBedroomParent } from "react-icons/md";
 import styles from "./id.module.css";
+import { getHomeById, deleteHome } from '@/app/homes/api';
 
 interface Home {
   _id: string;
@@ -20,24 +23,38 @@ interface Home {
   amenities?: string[];
 }
 
-const HomePage = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+const HomePage = ({ params }: { params: { id: string } }) => {
+  const [home, setHome] = useState<Home | null>(null);
+  const router = useRouter();
 
-  let home: Home | null = null;
+  useEffect(() => {
+    const fetchHome = async () => {
+      try {
+        const homeData = await getHomeById(params.id);
+        setHome(homeData);
+      } catch (error) {
+        console.error("Error fetching home:", error);
+      }
+    };
+    fetchHome();
+  }, [params.id]);
 
-  try {
-    const response = await fetch(`http://localhost:5000/api/homes/${id}`);
-    if (response.ok) {
-      home = await response.json();
-    } else {
-      console.error("Failed to fetch home data");
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this home?')) {
+      try {
+        // Note: You need to implement a way to get the token securely
+        const token = 'your-auth-token'; // Replace this with actual token retrieval
+        await deleteHome(home!._id, token);
+        router.push('/homes');  // Redirect to homes list after successful deletion
+      } catch (error) {
+        console.error('Error deleting home:', error);
+        alert('Failed to delete home. Please try again.');
+      }
     }
-  } catch (error) {
-    console.error("Error fetching home:", error);
-  }
+  };
 
   if (!home) {
-    return <div>Home not found</div>;
+    return <div>Loading...</div>;
   }
 
   const images: string[] = [
@@ -50,7 +67,6 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
     "/1brNyali/IMG-20240504-WA0032.jpg",
   ];
 
-  const name = home.name;
   const NoOfBedroom = "1";
   const NoOfGuests = "2";
   const NoOfBeds = "1";
@@ -58,10 +74,10 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="home-more">
       <div className="gallery-carousel">
-        <CustomCarousel images={images} name={name} />
+        <CustomCarousel images={images} name={home.name} />
       </div>
       <div className="gallery-collage">
-        <Collage images={images} name={name} />
+        <Collage images={images} name={home.name} />
       </div>
       <div className="des">
         <div className="des-sc">
@@ -75,7 +91,7 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
             bath="2"
           />
           <hr />
-          <h2 className="section-bed">Where you&apos;ll sleep</h2>
+          <h2 className="section-bed">Where you'll sleep</h2>
           <div className="bed">
             <div>
               <MdOutlineBedroomParent />
@@ -89,9 +105,6 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
             </div>
           </div>
           <hr />
-          {/* Pass the amenities to the Amenities component 
-          <Amenities amenities={home.amenities? || []} />
-          {/* OR list them directly here */}
           <div className="amenities-list">
             <h3>Amenities</h3>
             <ul>
@@ -104,8 +117,8 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
         <div className={styles.paymn}>
           <Payment price={home.price} description={home.description} />
           <div className={styles.btn}>
-            <a href={`/homes/update/${id}`}>Update home</a>
-            <a href="#">Delete home</a>
+            <a href={`/homes/update/${home._id}`}>Update home</a>
+            <button onClick={handleDelete}>Delete home</button>
           </div>
         </div>
       </div>
