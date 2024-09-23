@@ -1,7 +1,6 @@
-"use client";
-
+"use client"; // Marking it as a client component
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter for Next.js 13+
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import styles from "./addNewHome.module.css";
 
@@ -10,34 +9,41 @@ const AddHomeForm = () => {
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [imageUrl, setImageUrl] = useState([""]); // Array to store image URLs
+  const [images, setImages] = useState([]); // To handle multiple image files
   const [amenities, setAmenities] = useState([""]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const router = useRouter(); // Use the hook directly
+  const router = useRouter();
+
+  const handleImageChange = (e) => {
+    setImages([...e.target.files]); // Store the selected images as an array
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure at least one image is provided
-    if (imageUrl.length < 1 || imageUrl[0] === "") {
-      setError("Please provide at least one image URL.");
+    if (images.length < 1) {
+      setError("Please provide at least one image.");
       return;
     }
 
-    const homeData = {
-      name,
-      location,
-      description,
-      price: parseFloat(price), // Convert price to a number
-      imageUrl, // Image URLs as an array
-      amenities,
-    };
+    const formData = new FormData(); // Using FormData to send both text and files
+
+    // Append text fields
+    formData.append("name", name);
+    formData.append("location", location);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("amenities", JSON.stringify(amenities)); // Convert amenities to JSON string
+
+    // Append images (single or multiple)
+    images.forEach((image) => {
+      formData.append("images", image); // Append each file to 'images' field
+    });
 
     try {
-      const token = localStorage.getItem("token"); // Get the token from localStorage
-
+      const token = localStorage.getItem("token");
       if (!token) {
         setError("You must be logged in to add a home.");
         return;
@@ -45,9 +51,12 @@ const AddHomeForm = () => {
 
       const response = await axios.post(
         "http://localhost:5000/api/homes",
-        homeData,
+        formData, // Send FormData with files
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "multipart/form-data", // Important for file uploads
+          },
         }
       );
 
@@ -55,9 +64,9 @@ const AddHomeForm = () => {
         setSuccess("Home added successfully!");
         setError("");
 
-        // Redirect to a different page or reset form
+        // Redirect or reset form
         setTimeout(() => {
-          router.push("/"); // Redirect to the homes page
+          router.push("/"); // Redirect to home listing
         }, 1000);
       }
     } catch (err) {
@@ -90,7 +99,8 @@ const AddHomeForm = () => {
       </div>
       <div>
         <label htmlFor="description">Description:</label>
-        <input type="text"
+        <input
+          type="text"
           id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -108,13 +118,12 @@ const AddHomeForm = () => {
         />
       </div>
       <div>
-        <label htmlFor="imageUrl">Image URL:</label>
+        <label htmlFor="images">Upload Images:</label>
         <input
-          type="text"
-          id="imageUrl"
-          value={imageUrl[0]} // Access the first image URL in the array
-          onChange={(e) => setImageUrl([e.target.value])} // Set the array with one image URL
-          required
+          type="file"
+          id="images"
+          multiple // Allows selecting multiple files
+          onChange={handleImageChange}
         />
       </div>
       <div>
@@ -122,8 +131,8 @@ const AddHomeForm = () => {
         <input
           type="text"
           id="amenities"
-          value={amenities[0]} // Access the first image URL in the array
-          onChange={(e) => setAmenities([e.target.value])} // Set the array with one image URL
+          value={amenities[0]}
+          onChange={(e) => setAmenities([e.target.value])}
           required
         />
       </div>

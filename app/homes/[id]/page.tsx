@@ -8,6 +8,7 @@ import { MdOutlineBed } from "react-icons/md";
 import CustomCarousel from "@/app/ui/carousel";
 import ReviewCard from "@/app/ui/reviewcard/reviewcard";
 import OverallRating from "@/app/ui/overalRating/overalRating";
+import HostProfile from "@/app/ui/hostProfile/hostProfile";
 import { MdOutlineBedroomParent } from "react-icons/md";
 
 interface Home {
@@ -134,6 +135,23 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
         <div>
           <Payment price={home.price} description={home.description} />
         </div>
+      </div>
+      <hr />
+      <div>
+        <HostProfile
+          hostName="Karl And Salha"
+          profilePicture="/path-to-profile.jpg"
+          reviews={53}
+          rating={5}
+          yearsHosting={5}
+          work="Photographer and Singer"
+          languages="English and Swahili"
+          description="We are here to make your stay as memorable as possible. Below are a series of poorly constructed paragraphs and possible solutions. Put yourself in the place of a teacher. Criticise the structure of each paragraph and suggest how it might be improved."
+          coHostName="Salha"
+          coHostPicture="/path-to-cohost.jpg"
+          responseRate="100%"
+          responseTime="within an hour"
+        />
       </div>
       <hr />
       <Rules />

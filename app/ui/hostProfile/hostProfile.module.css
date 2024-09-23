@@ -1,0 +1,113 @@
+.hostContainer {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.hostProfileCard {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  gap: 20px;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+
+.hostProfile {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.hostImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: var(--background-start-rgb);
+  margin: 20px auto;
+}
+
+.hostInfo {
+  font-size: 18px;
+  padding: 20px 10px;
+}
+
+.superhost {
+  font-size: 14px;
+  color: var(--color-orange);
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.hostStats {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hostStats li {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+  text-align: center;
+  list-style: none;
+}
+
+.hostStats span {
+  font-weight: 600;
+  color: var(--color-navy);
+  font-size: 20px;
+}
+
+.hostDetails {
+  font-size: 16px;
+  padding: 20px 0;
+  width: 400px;
+  letter-spacing: 0.5px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.description{
+    padding: 7px 0;
+}
+
+.additionalInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.additionalInfo h3{
+  padding: 5px 0;
+  font-weight: 600;
+}
+
+.coHost {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  gap: 10px;
+}
+
+.coHost p{
+    font-size: 22px;
+    color: var(--color-navy);
+}
+
+.coHostImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--background-start-rgb);
+  margin-right: 10px auto;
+}

@@ -18,11 +18,12 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ county, hrefLink, specific, region, price, rate, imageUrl }) => {
+  const imageSrc = imageUrl ? `http://localhost:5000${imageUrl}` : '';
   return (
     <div className="card bg-white rounded-lg overflow-hidden shadow-md">
       <a href={hrefLink} target="blank">
       {imageUrl && (
-        <img className="w-full h-40 object-cover" src={imageUrl} alt={county} />
+        <img className="w-full h-40 object-cover" src={imageSrc} alt={county} />
       )}
       <div className="desc">
         <h2>{county}</h2><p className="tit"><i><GoStarFill /></i>{rate}</p>

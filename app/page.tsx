@@ -28,7 +28,7 @@ export default function Home() {
             region={home.location}
             specific={home.description}
             price={home.price}
-            imageUrl={home.imageUrl}
+            imageUrl={home.imageUrl?.[0]}
           />
         ))}
       </div>
