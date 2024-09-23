@@ -9,7 +9,7 @@ const AddHomeForm = () => {
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [images, setImages] = useState([]); // To handle multiple image files
+  const [images, setImages] = useState([]);
   const [amenities, setAmenities] = useState([""]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -17,7 +17,7 @@ const AddHomeForm = () => {
   const router = useRouter();
 
   const handleImageChange = (e) => {
-    setImages([...e.target.files]); // Store the selected images as an array
+    setImages([...e.target.files]);
   };
 
   const handleSubmit = async (e) => {
@@ -28,14 +28,13 @@ const AddHomeForm = () => {
       return;
     }
 
-    const formData = new FormData(); // Using FormData to send both text and files
+    const formData = new FormData();
 
-    // Append text fields
     formData.append("name", name);
     formData.append("location", location);
     formData.append("description", description);
     formData.append("price", price);
-    formData.append("amenities", JSON.stringify(amenities)); // Convert amenities to JSON string
+    formData.append("amenities", JSON.stringify(amenities));
 
     // Append images (single or multiple)
     images.forEach((image) => {

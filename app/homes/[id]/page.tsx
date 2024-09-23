@@ -18,7 +18,7 @@ interface Home {
   location: string;
   description: string;
   price: string;
-  imageUrl?: string[];
+  imageUrl?: string[]; // Array of image URLs
   amenities?: string[];
 }
 
@@ -64,15 +64,8 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
     return <div>Home not found</div>;
   }
 
-  const images: string[] = [
-    "/1brNyali/IMG-20240504-WA0025.jpg",
-    "/1brNyali/IMG-20240504-WA0026.jpg",
-    "/1brNyali/IMG-20240504-WA0028.jpg",
-    "/1brNyali/IMG-20240504-WA0030.jpg",
-    "/1brNyali/IMG-20240504-WA0033.jpg",
-    "/1brNyali/IMG-20240504-WA0031.jpg",
-    "/1brNyali/IMG-20240504-WA0032.jpg",
-  ];
+  // Use the images fetched from the backend
+  const images: string[] = home.imageUrl ? home.imageUrl.map((img) => `http://localhost:5000${img}`) : [];
 
   const name = home.name;
   const NoOfBedroom = "1";
@@ -82,9 +75,11 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="home-more">
       <div className="gallery-carousel">
+        {/* Pass the fetched images to CustomCarousel */}
         <CustomCarousel images={images} name={name} />
       </div>
       <div className="gallery-collage">
+        {/* Pass the fetched images to Collage */}
         <Collage images={images} name={name} />
       </div>
       <div className="des">
@@ -92,12 +87,7 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
           <h2>
             {home.name}, {home.location}
           </h2>
-          <Assets
-            guests={NoOfGuests}
-            bedroom={NoOfBedroom}
-            bed={NoOfBeds}
-            bath="2"
-          />
+          <Assets guests={NoOfGuests} bedroom={NoOfBedroom} bed={NoOfBeds} bath="2" />
           <hr />
           <h2 className="section-bed">Where you&apos;ll sleep</h2>
           <div className="bed">
@@ -113,9 +103,6 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
             </div>
           </div>
           <hr />
-          {/* Pass the amenities to the Amenities component 
-          <Amenities amenities={home.amenities? || []} />
-          {/* OR list them directly here */}
           <div className="amenities-list">
             <h3>Amenities</h3>
             <ul>
@@ -146,7 +133,7 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
           yearsHosting={5}
           work="Photographer and Singer"
           languages="English and Swahili"
-          description="We are here to make your stay as memorable as possible. Below are a series of poorly constructed paragraphs and possible solutions. Put yourself in the place of a teacher. Criticise the structure of each paragraph and suggest how it might be improved."
+          description="We are here to make your stay as memorable as possible."
           coHostName="Salha"
           coHostPicture="/path-to-cohost.jpg"
           responseRate="100%"
