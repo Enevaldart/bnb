@@ -31,7 +31,7 @@ const reviews = [
   {
     userName: "Mwangi John Wahurui",
     date: "15 Apr 2023",
-    rating: 3.5,
+    rating: 3,
     comment: "Below are a series of poorly constructed paragraphs and possible solutions. Put yourself in the place of a teacher. Criticise the structure of each paragraph and suggest how it might be improved. Be very critical about how the paragraph is constructed and how well the ideas flow. There are quite a few examples to have a go at because being critical of the work of others is difficult but gets easier the more you practice.",
     likes: 178,
   },

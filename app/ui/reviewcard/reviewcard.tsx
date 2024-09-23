@@ -20,10 +20,12 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   return (
     <div className={styles.card}>
       <div className={styles.header}>
-        <div className={styles.avatar}></div>
-        <div>
-          <h4 className={styles.userName}>{userName}</h4>
-          <p className={styles.date}>{date}</p>
+        <div className={styles.profile}>
+          <div className={styles.avatar}></div>
+          <div>
+            <h4 className={styles.userName}>{userName}</h4>
+            <p className={styles.date}>{date}</p>
+          </div>
         </div>
         <div className={styles.rating}>
           {Array.from({ length: 5 }).map((_, index) => (

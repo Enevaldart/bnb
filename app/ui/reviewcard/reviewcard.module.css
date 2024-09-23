@@ -1,23 +1,33 @@
 /* components/ReviewCard.module.css */
 .card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 15px;
-  background-color: white;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 20px 30px;
+  margin: 20px 0;
+  background-color: rgba(214, 219, 220, 0.4);
+  transition: all .3s ease-in-out;
+}
+
+.card:hover{
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 5px 0 15px;
+}
+
+.profile{
+    display: flex;
+    gap: 5px;
 }
 
 .avatar {
   width: 50px;
   height: 50px;
-  background-color: #f0f0f0;
+  background-color: var(--background-start-rgb);
   border-radius: 50%;
   margin-right: 15px;
 }
@@ -26,6 +36,7 @@
   font-size: 16px;
   font-weight: bold;
   margin: 0;
+  color: var(--color-blue);
 }
 
 .date {
@@ -39,18 +50,18 @@
 
 .activeStar,
 .inactiveStar {
-  font-size: 20px;
-  color: gold;
+  font-size: 25px;
+  color: var(--color-orange);
 }
 
 .inactiveStar {
-  color: #ccc;
+  color: #5a6d7dbf;
 }
 
 .comment {
-  margin-top: 10px;
   font-size: 14px;
-  color: #555;
+  color: var(--color-grey);
+  letter-spacing: .5px;
 }
 
 .footer {
