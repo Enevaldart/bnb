@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import styles from "./update.module.css"
+import styles from "./update.module.css";
 
 interface Home {
   _id: string;
@@ -11,6 +11,8 @@ interface Home {
   location: string;
   description: string;
   price: string;
+  amenities: string[];
+  imageUrl: string[];
 }
 
 const UpdateHomePage = ({ params }: { params: { id: string } }) => {
@@ -23,8 +25,11 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
     location: '',
     description: '',
     price: '',
+    amenities: [],
+    imageUrl: [],
   });
 
+  const [images, setImages] = useState<FileList | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -56,11 +61,22 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
     fetchHome();
   }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setHomeData({ ...homeData, [e.target.name]: e.target.value });
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    if (name === 'amenities') {
+      setHomeData({ ...homeData, [name]: value.split(',').map(item => item.trim()) });
+    } else {
+      setHomeData({ ...homeData, [name]: value });
+    }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImages(e.target.files);
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
@@ -70,9 +86,23 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
         return;
       }
 
-      const response = await axios.put(`http://localhost:5000/api/homes/${id}`, homeData, {
+      const formData = new FormData();
+      formData.append('name', homeData.name);
+      formData.append('location', homeData.location);
+      formData.append('description', homeData.description);
+      formData.append('price', homeData.price);
+      formData.append('amenities', JSON.stringify(homeData.amenities));
+
+      if (images) {
+        Array.from(images).forEach((image) => {
+          formData.append('images', image);
+        });
+      }
+
+      const response = await axios.put(`http://localhost:5000/api/homes/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -117,7 +147,7 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
         </div>
         <div>
           <label>Description</label>
-          <input type='text'
+          <textarea
             name="description"
             value={homeData.description}
             onChange={handleChange}
@@ -135,11 +165,11 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
           />
         </div>
         <div>
-          <label>Amenities</label>
+          <label>Amenities (comma-separated)</label>
           <input
             type="text"
             name="amenities"
-            value={homeData.amenities}
+            value={homeData.amenities.join(', ')}
             onChange={handleChange}
             required
           />
@@ -147,11 +177,10 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
         <div>
           <label>Images</label>
           <input
-            type="text"
-            name="imageUrl"
-            value={homeData.imageUrl}
-            onChange={handleChange}
-            required
+            type="file"
+            name="images"
+            onChange={handleImageChange}
+            multiple
           />
         </div>
         <button type="submit">Update Home</button>
