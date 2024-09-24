@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import styles from "./addNewHome.module.css";
+import { IoCloseSharp } from "react-icons/io5";
 
 const AddHomeForm = () => {
   const [name, setName] = useState("");
@@ -90,88 +91,116 @@ const AddHomeForm = () => {
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.leftSection}>
-          <h2>Add Home Details</h2>
-          <div>
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+        <h1>Add Home Details</h1>
+        <div className={styles.section}>
+          <div className={styles.leftSection}>
+            <div>
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <div>
+                <label htmlFor="location">Location:</label>
+                <input
+                  type="text"
+                  id="location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="price">Price:</label>
+                <input
+                  type="number"
+                  id="price"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <div>
+                <label htmlFor="bedrooms">No of Bedroom:</label>
+                <input
+                  type="number"
+                  id="bedrooms"
+                  //   value={location}
+                  // onChange={(e) => setLocation(e.target.value)}
+                  // required
+                />
+              </div>
+              <div>
+                <label htmlFor="Beds">No of Beds:</label>
+                <input
+                  type="text"
+                  id="beds"
+                  // value={price}
+                  // onChange={(e) => setPrice(e.target.value)}
+                  // required
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="amenities">Amenities (comma-separated):</label>
+              <input
+                type="text"
+                id="amenities"
+                value={amenities.join(", ")}
+                onChange={handleAmenitiesChange}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="description">Description:</label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="location">Location:</label>
-            <input
-              type="text"
-              id="location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="description">Description:</label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="price">Price:</label>
-            <input
-              type="number"
-              id="price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="amenities">Amenities (comma-separated):</label>
-            <input
-              type="text"
-              id="amenities"
-              value={amenities.join(", ")}
-              onChange={handleAmenitiesChange}
-              required
-            />
-          </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && <p style={{ color: "green" }}>{success}</p>}
-          <button type="submit">Add Home</button>
-        </div>
 
-        <div className={styles.rightSection}>
-          <h2>Upload Images</h2>
-          <div className={styles.imageUpload}>
-            <input
-              type="file"
-              id="images"
-              multiple
-              onChange={handleImageChange}
-              accept="image/*"
-            />
-            <div className={styles.previewContainer}>
-              {images.length > 0 &&
-                images.map((image, index) => (
-                  <div key={index} className={styles.imagePreview}>
-                    <img
-                      src={URL.createObjectURL(image)}
-                      alt={`Preview ${index}`}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleImageRemove(index)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
+          <div className={styles.rightSection}>
+            <h2>Upload Images</h2>
+            <div className={styles.imageUpload}>
+              <input
+                type="file"
+                id="images"
+                multiple
+                onChange={handleImageChange}
+                accept="image/*"
+              />
+              <div className={styles.previewContainer}>
+                {images.length > 0 &&
+                  images.map((image, index) => (
+                    <div key={index} className={styles.imagePreview}>
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`Preview ${index}`}
+                      />
+                      {/* <button
+                        type="button"
+                        onClick={() => handleImageRemove(index)}
+                      >
+                        <IoCloseSharp />
+                      </button>*/}
+                    </div>
+                  ))}
+              </div>
+            </div>
+            <div className={styles.submit}>
+              {error && <p style={{ color: "red" }}>{error}</p>}
+              {success && <p style={{ color: "green" }}>{success}</p>}
+              <button type="submit">Add Home</button>
             </div>
           </div>
         </div>

@@ -6,13 +6,37 @@
   gap: 50px;
 }
 
+.container *{
+    transition: all 0.3s ease-in-out;
+}
+
 .form {
   display: flex;
-  gap: 50px;
+  flex-direction: column;
   border: 1px dashed #ccc;
   padding: 20px;
   border-radius: 10px;
   max-width: 1200px;
+  width: 100%;
+}
+
+.form h1 {
+  font-size: 30px;
+  color: var(--color-navy);
+  font-weight: 600;
+  margin: 10px 20px 0;
+}
+
+.form h2 {
+  font-size: 24px;
+  color: var(--color-navy);
+  font-weight: 600;
+}
+
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   width: 100%;
 }
 
@@ -30,6 +54,15 @@
   margin: 10px 0;
 }
 
+.form .leftSection > div > div {
+  width: 48%;
+}
+
+.form .leftSection div:has(div) {
+  display: flex;
+  justify-content: space-between;
+}
+
 .form label {
   display: block;
   margin-bottom: 8px;
@@ -44,10 +77,48 @@
   margin-bottom: 15px;
 }
 
+.form textarea {
+  width: 100%;
+  height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  padding: 5px 10px;
+}
+
 .previewContainer {
+  padding: 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  border-radius: 5px;
+  height: 400px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  background-color: rgba(248, 145, 27, 0.057);
+  overflow-y: scroll;
+}
+
+.previewContainer::-webkit-scrollbar {
+  width: 12px;
+}
+
+.previewContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.previewContainer::-webkit-scrollbar-thumb {
+  background: var(--color-orange);
+  border-radius: 10px;
+}
+
+.previewContainer::-webkit-scrollbar-thumb:hover {
+  background: var(--color-grey);
+}
+
+.previewContainer::-webkit-scrollbar-corner {
+  background-color: #f1f1f1;
 }
 
 .imagePreview {
@@ -65,7 +136,7 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  background-color: #f00;
+  background-color: rgb(250, 84, 84);
   color: #fff;
   border: none;
   padding: 5px;
@@ -73,11 +144,35 @@
   cursor: pointer;
 }
 
+.submit {
+  width: 100%;
+  position: relative;
+  margin: 20px auto;
+}
+
 .container button[type="submit"] {
   background-color: #f8911b;
   color: #fff;
+  border: 1px solid #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  right: 0;
+  position: absolute;
+}
+
+@media screen and (max-width: 768px) {
+    .section{
+        flex-direction: column;
+        gap: 0px;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .container{
+        padding: 0 0 20px 0;
+        margin-bottom: 20px;
+        border: none;
+    }
 }

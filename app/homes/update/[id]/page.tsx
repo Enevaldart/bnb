@@ -4,6 +4,7 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import styles from "./update.module.css";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface Home {
   _id: string;
@@ -29,8 +30,9 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
     imageUrl: [],
   });
 
-  const [images, setImages] = useState<FileList | null>(null);
+  const [images, setImages] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchHome = async () => {
@@ -80,8 +82,12 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setImages(e.target.files);
+      setImages([...images, ...Array.from(e.target.files)]);
     }
+  };
+
+  const handleImageRemove = (indexToRemove: number) => {
+    setImages(images.filter((_, index) => index !== indexToRemove));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -101,8 +107,8 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
       formData.append("price", homeData.price);
       formData.append("amenities", JSON.stringify(homeData.amenities));
 
-      if (images) {
-        Array.from(images).forEach((image) => {
+      if (images.length > 0) {
+        images.forEach((image) => {
           formData.append("images", image);
         });
       }
@@ -119,14 +125,10 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
       );
 
       if (response.status === 200) {
-        // Update local state with the response data
-        setHomeData(response.data);
-
-        // Refresh the page to ensure all components re-render with new data
-        router.refresh();
-
-        // Navigate to the home page
-        router.push(`/homes/${id}`);
+        setSuccess("Home updated successfully!");
+        setTimeout(() => {
+          router.push(`/homes/${id}`);
+        }, 2000);
       } else {
         setError("Failed to update home");
       }
@@ -136,73 +138,127 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
     }
   };
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
-    <div>
-      <h1>Update Home</h1>
+    <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            value={homeData.name}
-            onChange={handleChange}
-            required
-          />
+        <h1>Update Home</h1>
+        <div className={styles.section}>
+          <div className={styles.leftSection}>
+            <div>
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={homeData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <div>
+                <label htmlFor="location">Location:</label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={homeData.location}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="price">Price:</label>
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={homeData.price}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <div>
+                <label htmlFor="bedrooms">No of Bedroom:</label>
+                <input
+                  type="number"
+                  id="bedrooms"
+                  //   value={location}
+                  // onChange={(e) => setLocation(e.target.value)}
+                  // required
+                />
+              </div>
+              <div>
+                <label htmlFor="Beds">No of Beds:</label>
+                <input
+                  type="text"
+                  id="beds"
+                  // value={price}
+                  // onChange={(e) => setPrice(e.target.value)}
+                  // required
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="amenities">Amenities (comma-separated):</label>
+              <input
+                type="text"
+                id="amenities"
+                name="amenities"
+                value={homeData.amenities.join(", ")}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="description">Description:</label>
+              <textarea
+                id="description"
+                name="description"
+                value={homeData.description}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+          <div className={styles.rightSection}>
+            <h2>Upload Images</h2>
+            <div className={styles.imageUpload}>
+              <input
+                type="file"
+                id="images"
+                multiple
+                onChange={handleImageChange}
+                accept="image/*"
+              />
+              <div className={styles.previewContainer}>
+                {images.length > 0 &&
+                  images.map((image, index) => (
+                    <div key={index} className={styles.imagePreview}>
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`Preview ${index}`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleImageRemove(index)}
+                      >
+                        <IoCloseSharp />
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
+            <div className={styles.submit}>
+              {error && <p style={{ color: "red" }}>{error}</p>}
+              {success && <p style={{ color: "green" }}>{success}</p>}
+              <button type="submit">Update Home</button>
+            </div>
+          </div>
         </div>
-        <div>
-          <label>Location</label>
-          <input
-            type="text"
-            name="location"
-            value={homeData.location}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Description</label>
-          <textarea
-            name="description"
-            value={homeData.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Price</label>
-          <input
-            type="text"
-            name="price"
-            value={homeData.price}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Amenities (comma-separated)</label>
-          <input
-            type="text"
-            name="amenities"
-            value={homeData.amenities.join(", ")}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Images</label>
-          <input
-            type="file"
-            name="images"
-            onChange={handleImageChange}
-            multiple
-          />
-        </div>
-        <button type="submit">Update Home</button>
       </form>
     </div>
   );
