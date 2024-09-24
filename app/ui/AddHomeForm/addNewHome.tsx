@@ -1,4 +1,4 @@
-"use client"; // Marking it as a client component
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -10,18 +10,28 @@ const AddHomeForm = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [images, setImages] = useState([]);
-  const [amenities, setAmenities] = useState([""]);
+  const [amenities, setAmenities] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const router = useRouter();
 
   const handleImageChange = (e) => {
-    setImages([...e.target.files]);
+    setImages([...images, ...Array.from(e.target.files)]);
+  };
+
+  const handleImageRemove = (indexToRemove) => {
+    setImages(images.filter((_, index) => index !== indexToRemove));
+  };
+
+  const handleAmenitiesChange = (e) => {
+    setAmenities(e.target.value.split(",").map((item) => item.trim()));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
 
     if (images.length < 1) {
       setError("Please provide at least one image.");
@@ -36,9 +46,8 @@ const AddHomeForm = () => {
     formData.append("price", price);
     formData.append("amenities", JSON.stringify(amenities));
 
-    // Append images (single or multiple)
     images.forEach((image) => {
-      formData.append("images", image); // Append each file to 'images' field
+      formData.append("images", image);
     });
 
     try {
@@ -50,10 +59,10 @@ const AddHomeForm = () => {
 
       const response = await axios.post(
         "http://localhost:5000/api/homes",
-        formData, // Send FormData with files
+        formData,
         {
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data", // Important for file uploads
           },
         }
@@ -61,12 +70,16 @@ const AddHomeForm = () => {
 
       if (response.status === 201) {
         setSuccess("Home added successfully!");
-        setError("");
-
-        // Redirect or reset form
+        // Reset form fields
+        setName("");
+        setLocation("");
+        setDescription("");
+        setPrice("");
+        setImages([]);
+        setAmenities([]);
         setTimeout(() => {
-          router.push("/"); // Redirect to home listing
-        }, 1000);
+          router.push("/");
+        }, 2000);
       }
     } catch (err) {
       setError(err.response?.data?.message || "Failed to add home.");
@@ -75,70 +88,95 @@ const AddHomeForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="location">Location:</label>
-        <input
-          type="text"
-          id="location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="description">Description:</label>
-        <input
-          type="text"
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="price">Price:</label>
-        <input
-          type="number"
-          id="price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="images">Upload Images:</label>
-        <input
-          type="file"
-          id="images"
-          multiple // Allows selecting multiple files
-          onChange={handleImageChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="amenities">Amenities:</label>
-        <input
-          type="text"
-          id="amenities"
-          value={amenities[0]}
-          onChange={(e) => setAmenities([e.target.value])}
-          required
-        />
-      </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
-      <button type="submit">Add Home</button>
-    </form>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.leftSection}>
+          <h2>Add Home Details</h2>
+          <div>
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="location">Location:</label>
+            <input
+              type="text"
+              id="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="description">Description:</label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="price">Price:</label>
+            <input
+              type="number"
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="amenities">Amenities (comma-separated):</label>
+            <input
+              type="text"
+              id="amenities"
+              value={amenities.join(", ")}
+              onChange={handleAmenitiesChange}
+              required
+            />
+          </div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {success && <p style={{ color: "green" }}>{success}</p>}
+          <button type="submit">Add Home</button>
+        </div>
+
+        <div className={styles.rightSection}>
+          <h2>Upload Images</h2>
+          <div className={styles.imageUpload}>
+            <input
+              type="file"
+              id="images"
+              multiple
+              onChange={handleImageChange}
+              accept="image/*"
+            />
+            <div className={styles.previewContainer}>
+              {images.length > 0 &&
+                images.map((image, index) => (
+                  <div key={index} className={styles.imagePreview}>
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt={`Preview ${index}`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleImageRemove(index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 };
 
