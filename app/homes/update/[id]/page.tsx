@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 import styles from "./update.module.css";
 
 interface Home {
@@ -20,11 +20,11 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
 
   const [homeData, setHomeData] = useState<Home>({
-    _id: '',
-    name: '',
-    location: '',
-    description: '',
-    price: '',
+    _id: "",
+    name: "",
+    location: "",
+    description: "",
+    price: "",
     amenities: [],
     imageUrl: [],
   });
@@ -35,25 +35,28 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const fetchHome = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-          setError('Unauthorized');
+          setError("Unauthorized");
           return;
         }
 
-        const response = await axios.get(`http://localhost:5000/api/homes/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:5000/api/homes/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.status === 200) {
           setHomeData(response.data);
         } else {
-          setError('Failed to fetch home data');
+          setError("Failed to fetch home data");
         }
       } catch (err) {
-        setError('Error fetching home data');
+        setError("Error fetching home data");
         console.error(err);
       }
     };
@@ -61,10 +64,15 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
     fetchHome();
   }, [id]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    if (name === 'amenities') {
-      setHomeData({ ...homeData, [name]: value.split(',').map(item => item.trim()) });
+    if (name === "amenities") {
+      setHomeData({
+        ...homeData,
+        [name]: value.split(",").map((item) => item.trim()),
+      });
     } else {
       setHomeData({ ...homeData, [name]: value });
     }
@@ -80,39 +88,50 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        setError('Unauthorized');
+        setError("Unauthorized");
         return;
       }
 
       const formData = new FormData();
-      formData.append('name', homeData.name);
-      formData.append('location', homeData.location);
-      formData.append('description', homeData.description);
-      formData.append('price', homeData.price);
-      formData.append('amenities', JSON.stringify(homeData.amenities));
+      formData.append("name", homeData.name);
+      formData.append("location", homeData.location);
+      formData.append("description", homeData.description);
+      formData.append("price", homeData.price);
+      formData.append("amenities", JSON.stringify(homeData.amenities));
 
       if (images) {
         Array.from(images).forEach((image) => {
-          formData.append('images', image);
+          formData.append("images", image);
         });
       }
 
-      const response = await axios.put(`http://localhost:5000/api/homes/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.put(
+        `http://localhost:5000/api/homes/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (response.status === 200) {
+        // Update local state with the response data
+        setHomeData(response.data);
+
+        // Refresh the page to ensure all components re-render with new data
+        router.refresh();
+
+        // Navigate to the home page
         router.push(`/homes/${id}`);
       } else {
-        setError('Failed to update home');
+        setError("Failed to update home");
       }
     } catch (err) {
-      setError('Error updating home');
+      setError("Error updating home");
       console.error(err);
     }
   };
@@ -169,7 +188,7 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
           <input
             type="text"
             name="amenities"
-            value={homeData.amenities.join(', ')}
+            value={homeData.amenities.join(", ")}
             onChange={handleChange}
             required
           />
