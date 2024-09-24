@@ -21,7 +21,8 @@
 
 .profile{
     display: flex;
-    gap: 5px;
+    gap: 15px;
+    align-items: center;
 }
 
 .avatar {
@@ -29,7 +30,6 @@
   height: 50px;
   background-color: var(--background-start-rgb);
   border-radius: 50%;
-  margin-right: 15px;
 }
 
 .userName {

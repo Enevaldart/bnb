@@ -1,15 +1,18 @@
+"use client";
+
 import Rules from "@/app/ui/rules";
 import Payment from "@/app/ui/payment";
 import "@/app/globals.css";
 import Collage from "@/app/ui/collages";
 import Assets from "@/app/ui/mainAssets";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineBed } from "react-icons/md";
 import CustomCarousel from "@/app/ui/carousel";
 import ReviewCard from "@/app/ui/reviewcard/reviewcard";
 import OverallRating from "@/app/ui/overalRating/overalRating";
 import HostProfile from "@/app/ui/hostProfile/hostProfile";
 import { MdOutlineBedroomParent } from "react-icons/md";
+import { getHomeById, fetchReviewsByHomeId } from "@/app/homes/api"; // Import the new API function
 
 interface Home {
   _id: string;
@@ -18,53 +21,55 @@ interface Home {
   location: string;
   description: string;
   price: string;
-  imageUrl?: string[]; // Array of image URLs
+  imageUrl?: string[];
   amenities?: string[];
 }
 
-const reviews = [
-  {
-    userName: "ES Kamau",
-    date: "18 Apr 2023",
-    rating: 4,
-    comment:
-      "Several years ago, Channel 4, together with Jo Frost (perhaps better known as Supernanny) conducted an experiment. Forty children, aged six, were invited to a party and divided into two halves. One half was given typical sugary party foods. The other half ate sugar-free foods.",
-    likes: 298,
-  },
-  {
-    userName: "Mwangi John Wahurui",
-    date: "15 Apr 2023",
-    rating: 3,
-    comment:
-      "Below are a series of poorly constructed paragraphs and possible solutions. Put yourself in the place of a teacher. Criticise the structure of each paragraph and suggest how it might be improved. Be very critical about how the paragraph is constructed and how well the ideas flow. There are quite a few examples to have a go at because being critical of the work of others is difficult but gets easier the more you practice.",
-    likes: 178,
-  },
-];
+interface Review {
+  user: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
 
-const overallRating = 3.75;
-const totalReviews = 1297;
-
-const HomePage = async ({ params }: { params: { id: string } }) => {
+const HomePage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
 
-  let home: Home | null = null;
+  const [home, setHome] = useState<Home | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  try {
-    const response = await fetch(`http://localhost:5000/api/homes/${id}`);
-    if (response.ok) {
-      home = await response.json();
-    } else {
-      console.error("Failed to fetch home data");
-    }
-  } catch (error) {
-    console.error("Error fetching home:", error);
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const homeData = await getHomeById(id);
+        setHome(homeData);
+      } catch (err) {
+        setError("Failed to fetch home data");
+      }
+    };
+
+    const fetchHomeReviews = async () => {
+      try {
+        const reviewsData = await fetchReviewsByHomeId(id);
+        setReviews(reviewsData);
+      } catch (err) {
+        setError("Failed to fetch reviews");
+      }
+    };
+
+    fetchHomeData();
+    fetchHomeReviews();
+  }, [id]);
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   if (!home) {
-    return <div>Home not found</div>;
+    return <div>Loading...</div>;
   }
 
-  // Use the images fetched from the backend
   const images: string[] = home.imageUrl ? home.imageUrl.map((img) => `http://localhost:5000${img}`) : [];
 
   const name = home.name;
@@ -75,11 +80,9 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="home-more">
       <div className="gallery-carousel">
-        {/* Pass the fetched images to CustomCarousel */}
         <CustomCarousel images={images} name={name} />
       </div>
       <div className="gallery-collage">
-        {/* Pass the fetched images to Collage */}
         <Collage images={images} name={name} />
       </div>
       <div className="des">
@@ -112,10 +115,17 @@ const HomePage = async ({ params }: { params: { id: string } }) => {
             </ul>
           </div>
           <div>
-            <OverallRating rating={overallRating} totalReviews={totalReviews} />
-            <h2>Most liked comments</h2>
+            <OverallRating rating={parseFloat(home.rating)} totalReviews={reviews.length} />
+            <h2>Most Liked Comments</h2>
             {reviews.map((review, index) => (
-              <ReviewCard key={index} {...review} />
+              <ReviewCard
+                key={index}
+                userName={review.user?.username || 'Unknown User'}
+                date={review.date}
+                rating={review.rating}
+                comment={review.comment}
+                likes={298} // You can add likes logic later or mock for now
+              />
             ))}
           </div>
         </div>

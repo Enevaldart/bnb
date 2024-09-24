@@ -41,3 +41,8 @@ export const getUserHomes = async (token: string) => {
   });
   return response.data;
 };
+
+export const fetchReviewsByHomeId = async (id: string) => {
+  const response = await axios.get(`${API_URL}/${id}/reviews`);
+  return response.data;
+};
