@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter from next/navigation for Next.js 13+
 import axios from "axios";
 import styles from "./signup.module.css";
+import { FiUserPlus } from "react-icons/fi";
 
 const SignupForm = () => {
   const [username, setUsername] = useState("");
@@ -68,7 +69,7 @@ const SignupForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <h1>Sign Up</h1>
+      <h1>Sign Up <FiUserPlus className={styles.icon} /></h1>
       <div className={styles.container}>
         <div className={styles.userDetails}>
           <div>
@@ -76,6 +77,7 @@ const SignupForm = () => {
             <input
               type="text"
               id="username"
+              placeholder="Tom"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -86,6 +88,7 @@ const SignupForm = () => {
             <input
               type="email"
               id="email"
+              placeholder="example@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -97,6 +100,7 @@ const SignupForm = () => {
               <input
                 type="tel"
                 id="phoneNumber"
+                placeholder="07... or 01..."
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 required
@@ -107,6 +111,7 @@ const SignupForm = () => {
               <input
                 type="text"
                 id="idNumber"
+                placeholder="Your ID Number"
                 value={idNumber}
                 onChange={(e) => setIdNumber(e.target.value)}
                 required
@@ -150,6 +155,7 @@ const SignupForm = () => {
             <input
               type="text"
               id="address"
+              placeholder="Mombasa, Kenya"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
@@ -159,11 +165,12 @@ const SignupForm = () => {
 
         <div className={styles.companyDetails}>
           <div>
-            <label htmlFor="companyName">Company Name (optional):</label>
+            <label htmlFor="companyName">Company Name:</label>
             <input
               type="text"
               id="companyName"
               value={companyName}
+              placeholder="Example Homes LLC"
               onChange={(e) => setCompanyName(e.target.value)}
             />
           </div>
@@ -174,16 +181,18 @@ const SignupForm = () => {
             <input
               type="text"
               id="languagesSpoken"
+              placeholder="English, Kiswahili"
               value={languagesSpoken}
               onChange={(e) => setLanguagesSpoken(e.target.value)}
             />
           </div>
           <div>
             <label htmlFor="companyDescription">
-              Company Description (optional):
+              Company Description:
             </label>
             <textarea
               id="companyDescription"
+              placeholder="Say something nice about your company or services..."
               value={companyDescription}
               onChange={(e) => setCompanyDescription(e.target.value)}
             />

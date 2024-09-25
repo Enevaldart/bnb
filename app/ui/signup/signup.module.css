@@ -12,6 +12,9 @@
   font-weight: 600;
   letter-spacing: 1px;
   margin: 10px 0 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .container {
@@ -19,6 +22,7 @@
   gap: 30px;
   justify-content: space-between;
   width: 60vw;
+  transition: all .3s ease-in-out;
 }
 
 .container > div {
@@ -103,5 +107,42 @@
     border-radius: 2px;
     margin: 10px 0;
     width: fit-content;
+}
+
+@media (max-width: 1465px) {
+    .container {
+        width: 70vw;
+      }
+}
+
+@media (max-width: 1190px) {
+    .container {
+        width: 90vw;
+      }
+}
+
+@media (max-width: 1000px) {
+    .form {
+        box-shadow: none;
+        padding: 20px 30px;
+      }
+    .container {
+        width: 95vw;
+      }
+}
+
+@media (max-width: 800px) {
+    .container{
+        width: 80vw;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .container{
+        width: 90vw;
+    }
 }
 
