@@ -9,32 +9,38 @@ const SignupForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // New state for confirming password
   const [role, setRole] = useState("user"); // Optional role field
   const [companyName, setCompanyName] = useState(""); // New company field
   const [languagesSpoken, setLanguagesSpoken] = useState(""); // New languages field
   const [companyDescription, setCompanyDescription] = useState(""); // New description field
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const router = useRouter(); // Use the hook directly
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if passwords match before making the API call
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/signup",
-        {
-          username,
-          email,
-          password,
-          role, // Optional role field
-          companyName: companyName || "No company registered", // Default value
-          languagesSpoken: languagesSpoken
-            ? languagesSpoken.split(",").map((lang) => lang.trim())
-            : ["English"], // Default to "English"
-          companyDescription: companyDescription || "No description provided", // Default value
-        }
-      );
+      const response = await axios.post("http://localhost:5000/api/auth/signup", {
+        username,
+        email,
+        password,
+        role, // Optional role field
+        companyName: companyName || "No company registered", // Default value
+        languagesSpoken: languagesSpoken
+          ? languagesSpoken.split(",").map((lang) => lang.trim())
+          : ["English"], // Default to "English"
+        companyDescription: companyDescription || "No description provided", // Default value
+      });
 
       if (response.status === 201) {
         setSuccess("User created successfully!");
@@ -76,7 +82,7 @@ const SignupForm = () => {
       <div>
         <label htmlFor="password">Password:</label>
         <input
-          type="password"
+          type={showPassword ? "text" : "password"} // Toggle password visibility
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -84,16 +90,16 @@ const SignupForm = () => {
         />
       </div>
       <div>
-        <label htmlFor="role">Role (optional):</label>
-        <select
-          id="role"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
+        <label htmlFor="confirmPassword">Confirm Password:</label>
+        <input
+          type={showPassword ? "text" : "password"}
+          id="confirmPassword"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
       </div>
+     
       <div>
         <label htmlFor="companyName">Company Name (optional):</label>
         <input
@@ -104,9 +110,7 @@ const SignupForm = () => {
         />
       </div>
       <div>
-        <label htmlFor="languagesSpoken">
-          Languages Spoken (comma-separated):
-        </label>
+        <label htmlFor="languagesSpoken">Languages Spoken (comma-separated):</label>
         <input
           type="text"
           id="languagesSpoken"
@@ -115,14 +119,21 @@ const SignupForm = () => {
         />
       </div>
       <div>
-        <label htmlFor="companyDescription">
-          Company Description (optional):
-        </label>
+        <label htmlFor="companyDescription">Company Description (optional):</label>
         <textarea
           id="companyDescription"
           value={companyDescription}
           onChange={(e) => setCompanyDescription(e.target.value)}
         />
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id="showPassword"
+          checked={showPassword}
+          onChange={() => setShowPassword(!showPassword)}
+        />
+        <label htmlFor="showPassword">Show Password</label>
       </div>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
