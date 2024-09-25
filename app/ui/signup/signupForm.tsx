@@ -59,6 +59,8 @@ const SignupForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
+  <div className={styles.container}>
+    <div className={styles.userDetails}>
       <div>
         <label htmlFor="username">Username:</label>
         <input
@@ -82,7 +84,7 @@ const SignupForm = () => {
       <div>
         <label htmlFor="password">Password:</label>
         <input
-          type={showPassword ? "text" : "password"} // Toggle password visibility
+          type={showPassword ? "text" : "password"}
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -99,7 +101,18 @@ const SignupForm = () => {
           required
         />
       </div>
-     
+      <div>
+        <input
+          type="checkbox"
+          id="showPassword"
+          checked={showPassword}
+          onChange={() => setShowPassword(!showPassword)}
+        />
+        <label htmlFor="showPassword">Show Password</label>
+      </div>
+    </div>
+
+    <div className={styles.companyDetails}>
       <div>
         <label htmlFor="companyName">Company Name (optional):</label>
         <input
@@ -126,20 +139,15 @@ const SignupForm = () => {
           onChange={(e) => setCompanyDescription(e.target.value)}
         />
       </div>
-      <div>
-        <input
-          type="checkbox"
-          id="showPassword"
-          checked={showPassword}
-          onChange={() => setShowPassword(!showPassword)}
-        />
-        <label htmlFor="showPassword">Show Password</label>
-      </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
-      <button type="submit">Sign Up</button>
-      <a href="/auth/login">Login instead</a>
-    </form>
+    </div>
+  </div>
+
+  {error && <p style={{ color: "red" }}>{error}</p>}
+  {success && <p style={{ color: "green" }}>{success}</p>}
+  <button type="submit">Sign Up</button>
+  <a href="/auth/login">Login instead</a>
+</form>
+
   );
 };
 

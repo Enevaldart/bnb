@@ -4,46 +4,55 @@
     margin: 10px auto;
     padding: 20px 25px;
     border-radius: 4px;
-  }
-  
-  .form > div {
+}
+
+.container {
+    display: flex;
+    gap: 20px; /* Add some space between the columns */
+}
+
+.userDetails,
+.companyDetails {
+    flex: 1; /* Take equal space */
+}
+
+.form > div {
     margin: 5px 0;
     display: flex;
     align-items: center;
     gap: 20px;
-  }
-  
-  .form label {
+}
+
+.form label {
     width: 150px;
-  }
-  
-  .form input,
-  .form select,
-  .form textarea {
+}
+
+.form input,
+.form select,
+.form textarea {
     border: 1px solid #ccc;
     border-radius: 2px;
     padding: 5px 10px;
-    width: 200px;
-  }
-  
-  .form textarea {
+    width: 100%; /* Make inputs fill their container */
+}
+
+.form textarea {
     resize: none;
     height: 80px;
-  }
-  
-  .form button {
+}
+
+.form button {
     color: #fff;
     background-color: #f8911b;
     padding: 5px 12px;
     border-radius: 2px;
     cursor: pointer;
-  }
-  
-  .form button:hover {
+}
+
+.form button:hover {
     background-color: #e07c00;
-  }
-  
-  .form #showPassword {
+}
+
+.form #showPassword {
     margin-left: 150px;
-  }
-  
+}
