@@ -10,9 +10,12 @@ const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user"); // Optional role field
+  const [companyName, setCompanyName] = useState(""); // New company field
+  const [languagesSpoken, setLanguagesSpoken] = useState(""); // New languages field
+  const [companyDescription, setCompanyDescription] = useState(""); // New description field
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  
+
   const router = useRouter(); // Use the hook directly
 
   const handleSubmit = async (e) => {
@@ -25,6 +28,11 @@ const SignupForm = () => {
           email,
           password,
           role, // Optional role field
+          companyName: companyName || "No company registered", // Default value
+          languagesSpoken: languagesSpoken
+            ? languagesSpoken.split(",").map((lang) => lang.trim())
+            : ["English"], // Default to "English"
+          companyDescription: companyDescription || "No description provided", // Default value
         }
       );
 
@@ -85,6 +93,36 @@ const SignupForm = () => {
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
+      </div>
+      <div>
+        <label htmlFor="companyName">Company Name (optional):</label>
+        <input
+          type="text"
+          id="companyName"
+          value={companyName}
+          onChange={(e) => setCompanyName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="languagesSpoken">
+          Languages Spoken (comma-separated):
+        </label>
+        <input
+          type="text"
+          id="languagesSpoken"
+          value={languagesSpoken}
+          onChange={(e) => setLanguagesSpoken(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="companyDescription">
+          Company Description (optional):
+        </label>
+        <textarea
+          id="companyDescription"
+          value={companyDescription}
+          onChange={(e) => setCompanyDescription(e.target.value)}
+        />
       </div>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
