@@ -4,7 +4,6 @@ import AuthLayout from '../layout';
 const SignupPage = () => {
   return (
     <div>
-      <h1>Sign Up</h1>
       <SignupForm />
     </div>
   );

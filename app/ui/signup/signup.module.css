@@ -1,58 +1,107 @@
 .form {
-    width: fit-content;
-    border: 1px dashed #ccc;
-    margin: 10px auto;
-    padding: 20px 25px;
-    border-radius: 4px;
+  border-radius: 10px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.form h1 {
+  font-size: 30px;
+  color: var(--color-blue);
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 10px 0 5px;
 }
 
 .container {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+  width: 60vw;
+}
+
+.container > div {
+  flex: 1;
+}
+
+.container div div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+}
+
+.container input,
+.container textarea {
+  border: 2px solid var(--background-start-rgb);
+  border-radius: 4px;
+  padding: 7px 12px;
+  margin: 0;
+}
+
+.container label {
+  font-size: 16px;
+  padding: 10px 0 5px;
+  color: var(--color-navy);
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.userDetails div:has(div) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+}
+
+.userDetails div div {
+  width: 49%;
+}
+
+.showPass {
+  width: fit-content;
+  margin: 0 auto -10px;
+  padding: 0;
+}
+
+.showPass input{
+    padding: 0;
+    margin: 0;
+}
+
+.showPass input {
+  display: none;
+}
+
+.showPass label {
+  cursor: pointer;
+  color: var(--color-orange);
+  padding: 0;
+  margin: 0;
+}
+
+.companyDetails{
     display: flex;
-    gap: 20px; /* Add some space between the columns */
+    flex-direction: column;
+    gap: 5px;
 }
 
-.userDetails,
-.companyDetails {
-    flex: 1; /* Take equal space */
-}
+.container textarea {
+   height: 150px;
+  }
 
-.form > div {
-    margin: 5px 0;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.form label {
-    width: 150px;
-}
-
-.form input,
-.form select,
-.form textarea {
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    padding: 5px 10px;
-    width: 100%; /* Make inputs fill their container */
-}
-
-.form textarea {
-    resize: none;
-    height: 80px;
-}
-
-.form button {
+.form button{
     color: #fff;
     background-color: #f8911b;
-    padding: 5px 12px;
+    padding: 5px 15px;
     border-radius: 2px;
-    cursor: pointer;
+    margin: 10px 0;
+    width: fit-content;
 }
 
-.form button:hover {
-    background-color: #e07c00;
-}
-
-.form #showPassword {
-    margin-left: 150px;
-}
