@@ -406,14 +406,12 @@ h2.section-bed {
 
 .check {
   width: fit-content;
-  padding: 20px;
-  padding-bottom: 0;
-  padding-top: 0;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0;
-  height: 300px;
+  height: fit-content;
   border-radius: 20px;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
     rgba(17, 17, 26, 0.05) 0px 8px 32px;
@@ -440,7 +438,7 @@ h2.section-bed {
   color: var(--color-navy);
 }
 
-.check p span {
+.check p:has(span) span {
   font-size: 18px;
   font-weight: 400;
 }
@@ -476,8 +474,7 @@ h2.section-bed {
   font-size: 17px;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-top: 10px;
-  margin-bottom: 0px;
+  margin: 0 auto 20px;
 }
 
 footer {
