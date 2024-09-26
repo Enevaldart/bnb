@@ -187,12 +187,14 @@ const AddHomeForm = () => {
                         src={URL.createObjectURL(image)}
                         alt={`Preview ${index}`}
                       />
-                      {/* <button
+                      {/* Image remove button */}
+                      <button
                         type="button"
+                        className={styles.removeButton}
                         onClick={() => handleImageRemove(index)}
                       >
-                        <IoCloseSharp />
-                      </button>*/}
+                        <IoCloseSharp size={20} />
+                      </button>
                     </div>
                   ))}
               </div>
