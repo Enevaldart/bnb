@@ -10,6 +10,8 @@ const AddHomeForm = () => {
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [bedrooms, setbedrooms] = useState("");
+  const [beds, setbeds] = useState("");
   const [images, setImages] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [error, setError] = useState("");
@@ -44,6 +46,8 @@ const AddHomeForm = () => {
     formData.append("name", name);
     formData.append("location", location);
     formData.append("description", description);
+    formData.append("bedrooms", bedrooms);
+    formData.append("beds", beds);
     formData.append("price", price);
     formData.append("amenities", JSON.stringify(amenities));
 
@@ -76,6 +80,8 @@ const AddHomeForm = () => {
         setLocation("");
         setDescription("");
         setPrice("");
+        setbedrooms("");
+        setbeds("");
         setImages([]);
         setAmenities([]);
         setTimeout(() => {
@@ -132,9 +138,9 @@ const AddHomeForm = () => {
                 <input
                   type="number"
                   id="bedrooms"
-                  //   value={location}
-                  // onChange={(e) => setLocation(e.target.value)}
-                  // required
+                  value={bedrooms}
+                  onChange={(e) => setbedrooms(e.target.value)}
+                  required
                 />
               </div>
               <div>
@@ -142,9 +148,9 @@ const AddHomeForm = () => {
                 <input
                   type="text"
                   id="beds"
-                  // value={price}
-                  // onChange={(e) => setPrice(e.target.value)}
-                  // required
+                  value={beds}
+                  onChange={(e) => setbeds(e.target.value)}
+                  required
                 />
               </div>
             </div>

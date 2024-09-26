@@ -12,6 +12,8 @@ interface Home {
   location: string;
   description: string;
   price: string;
+  bedrooms: string;
+  beds: string;
   amenities: string[];
   imageUrl: string[];
 }
@@ -26,6 +28,8 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
     location: "",
     description: "",
     price: "",
+    bedrooms: "",
+    beds: "",
     amenities: [],
     imageUrl: [],
   });
@@ -105,6 +109,8 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
       formData.append("location", homeData.location);
       formData.append("description", homeData.description);
       formData.append("price", homeData.price);
+      formData.append("bedrooms", homeData.bedrooms);
+      formData.append("beds", homeData.beds);
       formData.append("amenities", JSON.stringify(homeData.amenities));
 
       if (images.length > 0) {
@@ -186,9 +192,9 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
                 <input
                   type="number"
                   id="bedrooms"
-                  //   value={location}
-                  // onChange={(e) => setLocation(e.target.value)}
-                  // required
+                  value={homeData.bedrooms}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div>
@@ -196,9 +202,9 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
                 <input
                   type="text"
                   id="beds"
-                  // value={price}
-                  // onChange={(e) => setPrice(e.target.value)}
-                  // required
+                  value={homeData.beds}
+                  onChange={handleChange}
+                  required
                 />
               </div>
             </div>

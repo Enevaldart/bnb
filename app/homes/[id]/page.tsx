@@ -21,6 +21,8 @@ interface Home {
   location: string;
   description: string;
   price: string;
+  bedrooms: string;
+  beds: string;
   imageUrl?: string[];
   amenities?: string[];
 }
@@ -73,9 +75,9 @@ const HomePage = ({ params }: { params: { id: string } }) => {
   const images: string[] = home.imageUrl ? home.imageUrl.map((img) => `http://localhost:5000${img}`) : [];
 
   const name = home.name;
-  const NoOfBedroom = "1";
+  const NoOfBedroom = home.bedrooms;
   const NoOfGuests = "2";
-  const NoOfBeds = "1";
+  const NoOfBeds = home.beds;
 
   return (
     <div className="home-more">

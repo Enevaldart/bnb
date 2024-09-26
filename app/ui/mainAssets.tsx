@@ -17,10 +17,8 @@ const Assets: React.FC<CardProps> = ({ guests, bedroom, bed, bath }) => {
   return (
     <>
     <ul className="assets">
-        <li>{guests} guests</li>
-        <li>{bedroom} bedroom</li>
-        <li>{bed} beds</li>
-        <li>{bath} bath</li>
+        <li>{bedroom} Bedroom</li>
+        <li>{bed} Beds</li>
       </ul>
     </>
   );
