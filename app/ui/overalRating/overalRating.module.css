@@ -1,7 +1,6 @@
-/* components/OverallRating.module.css */
 .container {
   text-align: center;
-  margin-bottom: 20px;
+  margin: 20px auto;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -33,4 +32,14 @@
   font-size: 16px;
   color: var(--color-grey);
   margin-top: 10px;
+}
+
+@media (max-width: 460px) {
+.container{
+  flex-direction: column;
+  gap: 0;
+}
+.stars {
+  margin-top: 0;
+}
 }

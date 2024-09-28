@@ -106,6 +106,7 @@ const AddHomeForm = () => {
                 type="text"
                 id="name"
                 value={name}
+                placeholder="Shanzu flats"
                 onChange={(e) => setName(e.target.value)}
                 required
               />
@@ -116,6 +117,7 @@ const AddHomeForm = () => {
                 <input
                   type="text"
                   id="location"
+                  placeholder="Shanzu"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   required
@@ -126,6 +128,7 @@ const AddHomeForm = () => {
                 <input
                   type="number"
                   id="price"
+                  placeholder="ksh..."
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   required
@@ -138,6 +141,7 @@ const AddHomeForm = () => {
                 <input
                   type="number"
                   id="bedrooms"
+                  placeholder="2"
                   value={bedrooms}
                   onChange={(e) => setbedrooms(e.target.value)}
                   required
@@ -148,6 +152,7 @@ const AddHomeForm = () => {
                 <input
                   type="text"
                   id="beds"
+                  placeholder="1 master and 2 other beds"
                   value={beds}
                   onChange={(e) => setbeds(e.target.value)}
                   required
@@ -159,6 +164,7 @@ const AddHomeForm = () => {
               <input
                 type="text"
                 id="amenities"
+                placeholder="BeachFront, Ample Parking, ..."
                 value={amenities.join(", ")}
                 onChange={handleAmenitiesChange}
                 required
@@ -168,6 +174,7 @@ const AddHomeForm = () => {
               <label htmlFor="description">Description:</label>
               <textarea
                 id="description"
+                placeholder="Say something nice about the home..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required

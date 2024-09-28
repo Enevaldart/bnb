@@ -1,0 +1,28 @@
+.amenities {
+}
+
+.amenities h3 {
+  color: var(--color-navy);
+  font-size: 22px;
+  margin: 5px 0;
+}
+
+.amenities ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1px;
+  align-items: flex-start;
+}
+
+.amenities ul li {
+  list-style: none;
+  text-wrap: nowrap;
+  text-transform: capitalize;
+}
+
+@media (max-width: 460px) {
+  .amenities ul {
+    display: flex;
+    flex-direction: column;
+  }
+}

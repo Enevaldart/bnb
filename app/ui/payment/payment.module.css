@@ -1,0 +1,161 @@
+.check {
+  width: fit-content;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.cheque {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  height: fit-content;
+  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+.check .form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.check p {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-navy);
+}
+
+.check p:has(span) {
+  font-size: 20px;
+  font-weight: 600;
+  width: 95%;
+  margin: 10px auto 5px;
+}
+
+.check p span {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.check form label {
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--color-orange);
+}
+
+.check input {
+  padding-right: 25px;
+}
+
+.check div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background: var(--color-white);
+}
+
+.check span {
+  font-size: 12px;
+  padding: 5px;
+  margin: 5px auto;
+}
+
+.check div.pay {
+  margin: 30px auto 10px;
+  padding: 0;
+  width: 100%;
+}
+
+.check div.pay li {
+  font-size: 16px;
+  color: var(--color-navy);
+  list-style: none;
+  margin: 1px 0;
+  padding: 0;
+}
+
+.check div.pay li:first-child {
+  margin: 0 0 4px 0;
+}
+
+.check div.pay li:has(strong) {
+  margin: 10px 0 0;
+  font-size: 17px;
+}
+
+.check button {
+  background: var(--color-orange);
+  color: var(--color-white);
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 10px auto;
+}
+.check-rt {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.check-rt .story {
+  margin: 20px;
+  width: auto;
+  color: var(--color-navy);
+}
+
+.story {
+  width: 400px;
+  margin: 20px auto 10px;
+  color: var(--color-navy);
+  background-color: transparent;
+}
+
+@media (max-width: 1036px) {
+  .check {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+    margin: 20px auto;
+    padding: 0;
+  }
+  .story {
+    width: auto;
+    margin: 0;
+  }
+}
+
+@media (max-width: 736px) {
+  .check {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 460px) {
+  .cheque {
+    box-shadow: none;
+  }
+  .check {
+    width: auto;
+  }
+  .form {
+    padding: 0;
+    display: inline;
+  }
+  .form div {
+    padding: 0;
+  }
+}

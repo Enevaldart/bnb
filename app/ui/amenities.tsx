@@ -35,7 +35,6 @@ export default function Amenities({ amenities }: AmenitiesProps) {
           </li>
         ))}
       </ul>
-      {/*<button>Show all 33 amenities</button>*/}
     </div>
   );
 }

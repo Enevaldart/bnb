@@ -6,8 +6,8 @@
   gap: 50px;
 }
 
-.container *{
-    transition: all 0.3s ease-in-out;
+.container * {
+  transition: all 0.3s ease-in-out;
 }
 
 .form {
@@ -163,16 +163,18 @@
 }
 
 @media screen and (max-width: 768px) {
-    .section{
-        flex-direction: column;
-        gap: 0px;
-    }
-}
-
-@media screen and (max-width: 768px){
-    .container{
-        padding: 0 0 20px 0;
-        margin-bottom: 20px;
-        border: none;
-    }
+  .container {
+    padding: 0 0 20px 0;
+    margin-bottom: 20px;
+  }
+  .section {
+    flex-direction: column;
+    gap: 0px;
+    width: 92vw;
+    padding: 0;
+    margin: 0 auto;
+  }
+  .section>*{
+    margin: 0;
+  }
 }

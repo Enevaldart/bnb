@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation"; // next/navigation
 import { useState } from "react";
 import styles from "./login.module.css";
+import { FiUserPlus } from "react-icons/fi";
 
 const SigninForm = () => {
   const [email, setEmail] = useState("");
@@ -52,36 +53,54 @@ const SigninForm = () => {
   return (
     <div>
       {splashMessage ? ( // Conditionally show the splash screen
-        <div className={styles.splashScreen}>{splashMessage}
-        <a href="/"><button>Continue</button></a>
+        <div className={styles.splashScreen}>
+          {splashMessage}
+          <a href="/">
+            <button>Continue</button>
+          </a>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+        <div className={styles.container}>
+          <div className={styles.subContainer}>
+            <div className={styles.leftSection}>
+              <h1>Welcome back, login to get more access</h1>
+              <a href="/auth/signup">Signup Instead</a>
+            </div>
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <h1>
+                Login <FiUserPlus className={styles.icon} />
+              </h1>
+              <hr />
+              <div>
+                <label htmlFor="email">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  placeholder="example@gmail.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="password">Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                {success && <p style={{ color: "green" }}>{success}</p>}
+                <button type="submit">Sign In</button>
+                <a href="/auth/signup">Signup instead</a>
+              </div>
+            </form>
           </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && <p style={{ color: "green" }}>{success}</p>}
-          <button type="submit">Sign In</button>
-          <a href="/auth/login">Signup instead</a>
-        </form>
+        </div>
       )}
     </div>
   );

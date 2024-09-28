@@ -1,10 +1,13 @@
 .hostContainer {
   display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  justify-content: space-between;
   margin-bottom: 30px;
   padding: 20px;
   background-color: #fff;
+  border-radius: 10px;
+}
+
+.hostContainer>div{
   border-radius: 10px;
 }
 
@@ -69,8 +72,8 @@
 
 .hostDetails {
   font-size: 16px;
-  padding: 20px 0;
-  width: 400px;
+  padding: 20px 30px;
+  width: 300px;
   letter-spacing: 0.5px;
   width: 600px;
   display: flex;
@@ -85,6 +88,8 @@
 .additionalInfo {
   display: flex;
   flex-direction: column;
+  min-width: 250px;
+  padding: 20px;
 }
 
 .additionalInfo h3{
@@ -110,4 +115,19 @@
   border-radius: 50%;
   background-color: var(--background-start-rgb);
   margin-right: 10px auto;
+}
+
+@media (max-width: 1010px) {
+  .hostContainer {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 500px) {
+  .hostDetails {
+    padding: 20px 0;
+  }
+  .additionalInfo{
+    padding: 20px 0;
+  }
 }

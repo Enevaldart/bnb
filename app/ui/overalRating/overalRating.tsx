@@ -1,4 +1,3 @@
-// components/OverallRating.tsx
 import React from "react";
 import styles from "./overalRating.module.css";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Rules from "@/app/ui/rules";
-import Payment from "@/app/ui/payment";
+import Payment from "@/app/ui/payment/payment";
 import "@/app/globals.css";
 import Collage from "@/app/ui/collages";
 import Assets from "@/app/ui/mainAssets";
@@ -12,7 +12,8 @@ import ReviewCard from "@/app/ui/reviewcard/reviewcard";
 import OverallRating from "@/app/ui/overalRating/overalRating";
 import HostProfile from "@/app/ui/hostProfile/hostProfile";
 import { MdOutlineBedroomParent } from "react-icons/md";
-import { getHomeById, fetchReviewsByHomeId } from "@/app/homes/api"; // Import the new API function
+import { getHomeById, fetchReviewsByHomeId } from "@/app/homes/api";
+import styles from "./home.module.css"
 
 interface Home {
   _id: string;
@@ -108,7 +109,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
           <hr />
-          <div className="amenities-list">
+          <div className={styles.amenities}>
             <h3>Amenities</h3>
             <ul>
               {home.amenities?.map((amenity, index) => (
@@ -116,6 +117,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
               ))}
             </ul>
           </div>
+          <hr />
           <div>
             <OverallRating rating={parseFloat(home.rating)} totalReviews={reviews.length} />
             <h2>Most Liked Comments</h2>

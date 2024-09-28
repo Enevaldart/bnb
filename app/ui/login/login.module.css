@@ -1,45 +1,109 @@
-.form{
-    width: fit-content;
-    border: 1px dashed #ccc;
-    margin: 10px auto;
-    padding: 20px 25px;
-    border-radius: 4px;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.form>div{
-    margin: 5px 0;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.container h1 {
+  font-size: 32px;
+  color: var(--color-blue);
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 10px 0 5px;
+  display: flex;
+  align-items: center;
 }
 
-.form label{
-    width: 150px;
+.subContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
 }
 
-.form input, .form select{
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    padding: 5px 10px;
+.subContainer > * {
+  flex: 1;
 }
 
-.form button, .splashScreen button{
+.leftSection a{
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-orange);
+    letter-spacing: 1px;
+}
+
+.form {
+    border-radius: 10px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+      rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    margin: 20px auto;
+    padding: 20px 30px;
+}
+
+.form > div {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form label {
+  color: var(--color-navy);
+}
+
+.container input {
+  border: 2px solid var(--background-start-rgb);
+  border-radius: 4px;
+  padding: 7px 12px;
+  margin: 0;
+}
+
+.form button{
     color: #fff;
     background-color: #f8911b;
-    padding: 5px 12px;
+    padding: 5px 15px;
     border-radius: 2px;
+    margin: 10px 0;
+    width: fit-content;
 }
 
-.splashScreen button{
-    border-radius: 5px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+.splashScreen button {
+  color: #fff;
+  background-color: #f8911b;
+  padding: 5px 12px;
+  border-radius: 2px;
 }
 
-.splashScreen{
-    width: 90%;
-    height: 80%;
-    margin: auto;
-    font-size: 50px;
-    letter-spacing: .5px;
+.splashScreen button {
+  border-radius: 5px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
 
+.splashScreen {
+  width: 90%;
+  height: 80%;
+  margin: auto;
+  font-size: 50px;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 1000px) {
+  .subContainer{
+    gap: 0;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 670px) {
+    .subContainer>div{
+        display: none;
+    }
+    .subContainer form{
+        width: 90vw;
+        margin: 0 auto;
+    }
+    .subContainer h1{
+        font-size: 20px;
+    }
 }

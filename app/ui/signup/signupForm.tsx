@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter from next/navigation for Next.js 13+
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import styles from "./signup.module.css";
 import { FiUserPlus } from "react-icons/fi";
@@ -10,19 +10,19 @@ const SignupForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState(""); // New state for confirming password
-  const [role, setRole] = useState("user"); // Optional role field
-  const [companyName, setCompanyName] = useState(""); // New company field
-  const [languagesSpoken, setLanguagesSpoken] = useState(""); // New languages field
-  const [companyDescription, setCompanyDescription] = useState(""); // New description field
-  const [address, setAddress] = useState(""); // New address field
-  const [phoneNumber, setPhoneNumber] = useState(""); // New phone number field
-  const [idNumber, setIdNumber] = useState(""); // New ID number field
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("user");
+  const [companyName, setCompanyName] = useState("");
+  const [languagesSpoken, setLanguagesSpoken] = useState("");
+  const [companyDescription, setCompanyDescription] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [idNumber, setIdNumber] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
-  const router = useRouter(); // Use the hook directly
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,9 +46,9 @@ const SignupForm = () => {
             ? languagesSpoken.split(",").map((lang) => lang.trim())
             : ["English"], // Default to "English"
           companyDescription: companyDescription || "No description provided", // Default value
-          address, // New address field
-          phoneNumber, // New phone number field
-          idNumber, // New ID number field
+          address,
+          phoneNumber,
+          idNumber,
         }
       );
 
