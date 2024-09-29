@@ -140,9 +140,9 @@ const HomePage = ({ params }: { params: { id: string } }) => {
       <hr />
       <div>
         <HostProfile
+          homeId={id}
           hostName="Karl And Salha"
           profilePicture="/path-to-profile.jpg"
-          reviews={53}
           rating={5}
           homesHosting={5}
           work="Photographer and Singer"
