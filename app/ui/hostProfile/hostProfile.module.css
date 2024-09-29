@@ -7,7 +7,7 @@
   border-radius: 10px;
 }
 
-.hostContainer>div{
+.hostContainer > div {
   border-radius: 10px;
 }
 
@@ -81,8 +81,8 @@
   gap: 5px;
 }
 
-.description{
-    padding: 7px 0;
+.description {
+  padding: 7px 0;
 }
 
 .additionalInfo {
@@ -92,7 +92,7 @@
   padding: 20px;
 }
 
-.additionalInfo h3{
+.additionalInfo h3 {
   padding: 5px 0;
   font-weight: 600;
 }
@@ -104,9 +104,9 @@
   gap: 10px;
 }
 
-.coHost p{
-    font-size: 22px;
-    color: var(--color-navy);
+.coHost p {
+  font-size: 22px;
+  color: var(--color-navy);
 }
 
 .coHostImage {
@@ -127,7 +127,7 @@
   .hostDetails {
     padding: 20px 0;
   }
-  .additionalInfo{
+  .additionalInfo {
     padding: 20px 0;
   }
 }

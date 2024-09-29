@@ -111,7 +111,7 @@ const HostProfile: React.FC<HostProfileProps> = ({
             alt="Co-host"
             className={styles.coHostImage}
           />
-          <p>{hostName}</p>
+          <p>{ownerStats.owner.username}</p>
         </div>
         <h3>Host details</h3>
         <p>Response rate: {responseRate}</p>
