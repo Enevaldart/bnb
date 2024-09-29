@@ -2,31 +2,31 @@ import React from "react";
 import styles from "./hostProfile.module.css";
 
 interface HostProfileProps {
-  hostName: string;
+  companyHostName: string;
   profilePicture: string;
   reviews: number;
   rating: number;
-  yearsHosting: number;
+  homesHosting: number;
   work: string;
   languages: string;
   description: string;
-  coHostName: string;
-  coHostPicture: string;
+  hostName: string;
+  hostPicture: string;
   responseRate: string;
   responseTime: string;
 }
 
 const HostProfile: React.FC<HostProfileProps> = ({
-  hostName,
+  companyHostName,
   profilePicture,
   reviews,
   rating,
-  yearsHosting,
+  homesHosting,
   work,
   languages,
   description,
-  coHostName,
-  coHostPicture,
+  hostName,
+  hostPicture,
   responseRate,
   responseTime,
 }) => {
@@ -39,14 +39,14 @@ const HostProfile: React.FC<HostProfileProps> = ({
             alt="Host Profile"
             className={styles.hostImage}
           />
-          <h2>{hostName}</h2>
+          <h2>{companyHostName}</h2>
           <div className={styles.superhost}>Superhost</div>
         </div>
         <div className={styles.hostInfo}>
           <ul className={styles.hostStats}>
             <li><span>{reviews}</span><br /> Reviews</li>
             <li><span>{rating} ★</span><br />Rating</li>
-            <li><span>{yearsHosting}</span><br />Years hosting</li>
+            <li><span>{homesHosting}</span><br />Homes hosting</li>
           </ul>
         </div>
       </div>
@@ -64,11 +64,11 @@ const HostProfile: React.FC<HostProfileProps> = ({
         <h3>Co-hosts</h3>
         <div className={styles.coHost}>
           <img
-            src={coHostPicture}
+            src={hostPicture}
             alt="Co-host"
             className={styles.coHostImage}
           />
-          <p>{coHostName}</p>
+          <p>{hostName}</p>
         </div>
         <h3>Host details</h3>
         <p>Response rate: {responseRate}</p>

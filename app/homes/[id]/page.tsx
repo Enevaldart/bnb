@@ -110,7 +110,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
           </div>
           <hr />
           <div className={styles.amenities}>
-            <h3>Amenities</h3>
+            <h3>What this place offers</h3>
             <ul>
               {home.amenities?.map((amenity, index) => (
                 <li key={index}>{amenity}</li>
@@ -144,7 +144,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
           profilePicture="/path-to-profile.jpg"
           reviews={53}
           rating={5}
-          yearsHosting={5}
+          homesHosting={5}
           work="Photographer and Singer"
           languages="English and Swahili"
           description="We are here to make your stay as memorable as possible."
