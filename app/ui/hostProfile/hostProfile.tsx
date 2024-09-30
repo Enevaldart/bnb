@@ -96,9 +96,6 @@ const HostProfile: React.FC<HostProfileProps> = ({
       <div className={styles.hostDetails}>
         <p className={styles.description}>The rating is based on the ratings of all homes managed by the same host.</p>
         <p>
-          <strong>My work:</strong> {work}
-        </p>
-        <p>
           <strong>Speaks:</strong> {languages}
         </p>
         <p className={styles.description}>{ownerStats.owner.companyDescription || description}</p>
