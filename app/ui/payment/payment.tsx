@@ -21,6 +21,13 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
   const [type, setType] = useState<"info" | "warning" | "error">("info");
   const [key, setKey] = useState(0);
 
+  // Additional form state for client details
+  const [clientName, setClientName] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
+  const [clientPhone, setClientPhone] = useState("");
+  
+  const [drawerOpen, setDrawerOpen] = useState(false); // Drawer state
+
   const handleError = (type: "info" | "warning" | "error") => {
     setMessage(
       "Online reservation is not available at the moment! Please contact +254115 425 094 on WhatsApp to complete your room reservation. Thank you"
@@ -35,6 +42,12 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
 
   const handleCheckOutChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCheckOut(event.target.value);
+  };
+
+  // Slide the drawer when clicking 'Check Reservation'
+  const handleCheckReservation = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setDrawerOpen(true); // Open the drawer
   };
 
   useEffect(() => {
@@ -113,7 +126,7 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
               <span>Those dates are not available</span>
             )}
 
-            <button onClick={() => handleError("info")}>
+            <button onClick={handleCheckReservation}>
               Check reservation
             </button>
           </div>
@@ -121,6 +134,45 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
       </div>
       <div className={styles.story}>{description}</div>
       <ErrorMessage key={key} message={message} type={type} />
+
+      {/* Sliding drawer for additional client details */}
+      <div
+        className={`${styles.drawer} ${drawerOpen ? styles.drawerOpen : ""}`}
+      >
+        <h3>Enter Client Details</h3>
+        <form>
+          <div className={styles.drawerField}>
+            <label>Name</label>
+            <input
+              type="text"
+              value={clientName}
+              onChange={(e) => setClientName(e.target.value)}
+              placeholder="Your Name"
+            />
+          </div>
+          <div className={styles.drawerField}>
+            <label>Email</label>
+            <input
+              type="email"
+              value={clientEmail}
+              onChange={(e) => setClientEmail(e.target.value)}
+              placeholder="Your Email"
+            />
+          </div>
+          <div className={styles.drawerField}>
+            <label>Phone</label>
+            <input
+              type="tel"
+              value={clientPhone}
+              onChange={(e) => setClientPhone(e.target.value)}
+              placeholder="Your Phone"
+            />
+          </div>
+          <button type="submit" className={styles.submitBtn}>
+            Complete Booking
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
