@@ -92,7 +92,7 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
       checkOut,
       totalPrice: finalTotal,
       nights,
-      homeId, // Include homeId in the booking request
+      homeId,
     };
 
     try {
