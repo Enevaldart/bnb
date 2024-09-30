@@ -134,7 +134,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         <div>
-          <Payment price={home.price} description={home.description} />
+          <Payment homeId={home._id} price={home.price} description={home.description} />
         </div>
       </div>
       <hr />

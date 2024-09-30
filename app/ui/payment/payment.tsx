@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import ErrorMessage from "@/app/ui/errorMessage";
 import styles from "./payment.module.css";
 
 interface CardProps {
   price: string; // Assuming this is a string for display purposes
   description: string;
+  homeId: string; // Add homeId as a prop
 }
 
-const Payment: React.FC<CardProps> = ({ price, description }) => {
+const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
   const pricePerNight = parseFloat(price); // Convert price to a number
   const [checkIn, setCheckIn] = useState<string>("");
   const [checkOut, setCheckOut] = useState<string>("");
@@ -77,6 +79,38 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
       setFinalTotal(0); // Reset all amounts if nights are null
     }
   }, [nights, pricePerNight]);
+
+  // Function to handle the booking submission
+  const handleBookingSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const bookingData = {
+      clientName,
+      clientEmail,
+      clientPhone,
+      checkIn,
+      checkOut,
+      totalPrice: finalTotal,
+      nights,
+      homeId, // Include homeId in the booking request
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/booking", bookingData);
+      console.log(response.data); // Handle success response
+      // Optionally reset form and state after successful booking
+      setClientName("");
+      setClientEmail("");
+      setClientPhone("");
+      setCheckIn("");
+      setCheckOut("");
+      setNights(null);
+      setDrawerOpen(false); // Close the drawer after booking
+    } catch (error) {
+      console.error(error);
+      handleError("error");
+    }
+  };
 
   return (
     <div className={styles.check}>
@@ -149,7 +183,7 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
         className={`${styles.drawer} ${drawerOpen ? styles.drawerOpen : ""}`}
       >
         <h3>Enter Client Details</h3>
-        <form>
+        <form onSubmit={handleBookingSubmit}>
           <div className={styles.drawerField}>
             <label>Name</label>
             <input
@@ -157,6 +191,7 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
               placeholder="Your Name"
+              required
             />
           </div>
           <div className={styles.drawerField}>
@@ -166,6 +201,7 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
               value={clientEmail}
               onChange={(e) => setClientEmail(e.target.value)}
               placeholder="Your Email"
+              required
             />
           </div>
           <div className={styles.drawerField}>
@@ -175,6 +211,7 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
               value={clientPhone}
               onChange={(e) => setClientPhone(e.target.value)}
               placeholder="Your Phone"
+              required
             />
           </div>
           <button type="submit" className={styles.submitBtn}>
