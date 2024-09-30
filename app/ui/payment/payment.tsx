@@ -25,7 +25,7 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [clientPhone, setClientPhone] = useState("");
-  
+
   const [drawerOpen, setDrawerOpen] = useState(false); // Drawer state
 
   const handleError = (type: "info" | "warning" | "error") => {
@@ -44,10 +44,12 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
     setCheckOut(event.target.value);
   };
 
-  // Slide the drawer when clicking 'Check Reservation'
+  // Open the drawer only when dates are selected
   const handleCheckReservation = (e: React.MouseEvent) => {
     e.preventDefault();
-    setDrawerOpen(true); // Open the drawer
+    if (checkIn && checkOut) {
+      setDrawerOpen(true); // Open the drawer if dates are selected
+    }
   };
 
   useEffect(() => {
@@ -106,10 +108,14 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
                 <input type="text" value="1 Guest" readOnly />
               </div>
             </div>
+
+            {/* Display the payment summary below the form if valid dates are selected */}
             {nights !== null && (
               <div className={styles.pay}>
-                <li><i>
-                  {nights} night{nights > 1 ? "s" : ""} selected</i>
+                <li>
+                  <i>
+                    {nights} night{nights > 1 ? "s" : ""} selected
+                  </i>
                 </li>
                 <li>
                   Basic: {pricePerNight} * {nights} = Ksh{" "}
@@ -126,7 +132,10 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
               <span>Those dates are not available</span>
             )}
 
-            <button onClick={handleCheckReservation}>
+            <button
+              onClick={handleCheckReservation}
+              disabled={!nights} // Disable the button if nights aren't valid
+            >
               Check reservation
             </button>
           </div>
@@ -171,6 +180,20 @@ const Payment: React.FC<CardProps> = ({ price, description }) => {
           <button type="submit" className={styles.submitBtn}>
             Complete Booking
           </button>
+          <div className={styles.pay}>
+            <li>
+              <i>
+                {nights} night{nights > 1 ? "s" : ""} selected
+              </i>
+            </li>
+            <li>
+              Basic: {pricePerNight} * {nights} = Ksh {totalAmount.toFixed(2)}
+            </li>
+            <li>Convenience Fee (4%): Ksh {convenienceFee.toFixed(2)}</li>
+            <li>
+              <strong>Total Amount: Ksh {finalTotal.toFixed(2)}</strong>
+            </li>
+          </div>
         </form>
       </div>
     </div>

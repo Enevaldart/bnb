@@ -135,7 +135,7 @@
 }
 
 .drawerOpen {
-  right: 0; /* Slide into view */
+  left: 0; /* Slide into view */
 }
 
 .drawerField {
