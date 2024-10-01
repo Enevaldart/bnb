@@ -124,7 +124,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
             {reviews.map((review, index) => (
               <ReviewCard
                 key={index}
-                userName={review.user?.username || 'Unknown User'}
+                userName={review.user || 'Unknown User'}
                 date={review.date}
                 rating={review.rating}
                 comment={review.comment}
