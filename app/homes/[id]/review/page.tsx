@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import styles from "./reviewForm.module.css";
+import axios from "axios";
 
-export default function ReviewPage({ params }: { params: { homeId: string } }) {
+export default function ReviewPage({ params }: { params: { id: string } }) {
   console.log("Params in ReviewPage:", params);
+
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -13,10 +15,17 @@ export default function ReviewPage({ params }: { params: { homeId: string } }) {
   const [success, setSuccess] = useState("");
 
   const searchParams = useSearchParams();
-  const homeId = params.homeId;
+  const { id } = params;
+
+  // Check if homeId is being used properly
+  if (!id) {
+    console.error(
+      "homeId is undefined. Make sure your dynamic route is set up correctly."
+    );
+  }
   const token = searchParams.get("token");
 
-  console.log("Home ID:", homeId); // Log homeId to verify
+  console.log("Home ID:", id); // Log homeId to verify
   console.log("Token:", token); // Log token to verify
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,27 +35,22 @@ export default function ReviewPage({ params }: { params: { homeId: string } }) {
     setSuccess("");
 
     // Validate token and homeId
-    if (!token || !homeId) {
+    if (!token || !id) {
       setError("Invalid token or home ID.");
       setIsSubmitting(false);
       return;
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/homes/${homeId}/review`,
+      const response = await axios.post(
+        `http://localhost:5000/api/homes/${id}/review`,
+        { rating, comment, token },
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ rating, comment, token }),
         }
       );
-
-      if (!response.ok) {
-        throw new Error("Failed to submit review");
-      }
 
       setSuccess("Thank you for your review!");
       setComment("");
@@ -103,5 +107,4 @@ export default function ReviewPage({ params }: { params: { homeId: string } }) {
       </div>
     </div>
   );
-};
-
+}
