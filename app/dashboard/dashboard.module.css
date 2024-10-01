@@ -42,6 +42,12 @@
   border-top: 1px solid #e5e7eb;
 }
 
+.table td:has(br){
+    text-wrap: nowrap;
+    max-width: 110px;
+    overflow: hidden;
+}
+
 .evenRow {
   background-color: #f9fafb;
 }
@@ -58,4 +64,18 @@
 
 .totalPrice {
   font-weight: 600;
+}
+
+@media (max-width: 740px) {
+ .scrollable{
+    width: 100%;
+    overflow-x: scroll;
+ }
+ .scrollable table{
+    min-width: 740px;
+    font-size: 14px;
+ }
+ .cell{
+    padding: 5px 8px;
+ }
 }

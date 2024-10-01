@@ -27,7 +27,15 @@ const Bookings: React.FC = () => {
         const response = await axios.get(
           "http://localhost:5000/api/booking/summary"
         );
-        setBookings(response.data);
+
+        // Sort bookings by bookingTime in descending order (most recent first)
+        const sortedBookings = response.data.sort(
+          (a: Booking, b: Booking) =>
+            new Date(b.bookingTime).getTime() -
+            new Date(a.bookingTime).getTime()
+        );
+
+        setBookings(sortedBookings);
       } catch (err) {
         setError("Failed to load bookings.");
         console.error(err);
@@ -43,43 +51,50 @@ const Bookings: React.FC = () => {
       {error ? (
         <p className={styles.error}>{error}</p>
       ) : (
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.headerCell}>Time of Booking</th>
-              <th className={styles.headerCell}>Client Name</th>
-              <th className={styles.headerCell}>Hotel Name</th>
-              <th className={styles.headerCell}>Check-in Date</th>
-              <th className={styles.headerCell}>Check-out Date</th>
-              <th className={styles.headerCell}>Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.map((booking, index) => (
-              <tr
-                key={booking._id}
-                className={`${styles.tableRow} ${
-                  index % 2 === 0 ? styles.evenRow : styles.oddRow
-                }`}
-              >
-                <td className={styles.cell}>
-                  {new Date(booking.bookingTime).toLocaleString()}
-                </td>
-                <td className={styles.cell}>{booking.clientName} <br /> {booking.clientPhone}</td>
-                <td className={styles.cell}>{booking.homeName} <br /> <a href={`../homes/${booking.homeId}`}>{booking.homeId}</a></td>
-                <td className={styles.cell}>
-                  {new Date(booking.checkInDate).toLocaleDateString()}
-                </td>
-                <td className={styles.cell}>
-                  {new Date(booking.checkOutDate).toLocaleDateString()}
-                </td>
-                <td className={`${styles.cell} ${styles.totalPrice}`}>
-                  Ksh {booking.totalPrice.toFixed(2)}
-                </td>
+        <div className={styles.scrollable}>
+          <table className={styles.table}>
+            <thead className={styles.tableHeader}>
+              <tr>
+                <th className={styles.headerCell}>Time of Booking</th>
+                <th className={styles.headerCell}>Client Name</th>
+                <th className={styles.headerCell}>Hotel Name</th>
+                <th className={styles.headerCell}>Check-in Date</th>
+                <th className={styles.headerCell}>Check-out Date</th>
+                <th className={styles.headerCell}>Total Price</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {bookings.map((booking, index) => (
+                <tr
+                  key={booking._id}
+                  className={`${styles.tableRow} ${
+                    index % 2 === 0 ? styles.evenRow : styles.oddRow
+                  }`}
+                >
+                  <td className={styles.cell}>
+                    {new Date(booking.bookingTime).toLocaleString()}
+                  </td>
+                  <td className={styles.cell}>
+                    {booking.clientName} <br /> {booking.clientPhone}
+                  </td>
+                  <td className={styles.cell}>
+                    {booking.homeName} <br />{" "}
+                    <a href={`../homes/${booking.homeId}`}>{booking.homeId}</a>
+                  </td>
+                  <td className={styles.cell}>
+                    {new Date(booking.checkInDate).toLocaleDateString()}
+                  </td>
+                  <td className={styles.cell}>
+                    {new Date(booking.checkOutDate).toLocaleDateString()}
+                  </td>
+                  <td className={`${styles.cell} ${styles.totalPrice}`}>
+                    Ksh {booking.totalPrice.toFixed(2)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
