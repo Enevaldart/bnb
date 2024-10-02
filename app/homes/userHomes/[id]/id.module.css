@@ -1,34 +1,27 @@
-.paymn{
+
+
+.amenities h3 {
+  color: var(--color-navy);
+  font-size: 22px;
+  margin: 5px 0;
+}
+
+.amenities ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1px;
+  align-items: flex-start;
+}
+
+.amenities ul li {
+  list-style: none;
+  text-wrap: nowrap;
+  text-transform: capitalize;
+}
+
+@media (max-width: 460px) {
+  .amenities ul {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-}
-
-.btn{
-    display: flex;
-    width: fit-content;
-}
-.btn a, .btn button{
-    color: var(--color-white);
-    padding: 10px 30px;
-    margin: 10px;
-    background: #EA526F;
-    border-radius: 10px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    transition: all 1.5s ease;
-}
-
-.btn a:hover{
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
-.btn a:first-child{
-    background: var(--color-grey);
-}
-
-.btn button{
-    cursor: not-allowed;
+  }
 }

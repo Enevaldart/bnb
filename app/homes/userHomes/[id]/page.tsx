@@ -1,16 +1,19 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Rules from "@/app/ui/rules";
-import Payment from "@/app/ui/payment";
+import Payment from "@/app/ui/payment/payment";
 import "@/app/globals.css";
 import Collage from "@/app/ui/collages";
 import Assets from "@/app/ui/mainAssets";
-import { MdOutlineBed, MdOutlineBedroomParent } from "react-icons/md";
+import React, { useEffect, useState } from "react";
+import { MdOutlineBed } from "react-icons/md";
 import CustomCarousel from "@/app/ui/carousel";
+import ReviewCard from "@/app/ui/reviewcard/reviewcard";
+import OverallRating from "@/app/ui/overalRating/overalRating";
+import HostProfile from "@/app/ui/hostProfile/hostProfile";
+import { MdOutlineBedroomParent } from "react-icons/md";
 import styles from "./id.module.css";
-import { getHomeById, deleteHome } from '@/app/homes/api';
+import { getHomeById, deleteHome, fetchReviewsByHomeId } from "@/app/homes/api";
 
 interface Home {
   _id: string;
@@ -19,65 +22,71 @@ interface Home {
   location: string;
   description: string;
   price: string;
+  bedrooms: string;
+  beds: string;
   imageUrl?: string[];
   amenities?: string[];
 }
 
+interface Review {
+  user: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
 const HomePage = ({ params }: { params: { id: string } }) => {
+  const { id } = params;
+
   const [home, setHome] = useState<Home | null>(null);
-  const router = useRouter();
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchHome = async () => {
       try {
-        const homeData = await getHomeById(params.id);
+        const homeData = await getHomeById(id);
         setHome(homeData);
       } catch (error) {
         console.error("Error fetching home:", error);
       }
     };
-    fetchHome();
-  }, [params.id]);
-
-  const handleDelete = async () => {
-    if (window.confirm('Are you sure you want to delete this home?')) {
+    const fetchHomeReviews = async () => {
       try {
-        // Note: You need to implement a way to get the token securely
-        const token = 'your-auth-token'; // Replace this with actual token retrieval
-        await deleteHome(home!._id, token);
-        router.push('/homes');  // Redirect to homes list after successful deletion
-      } catch (error) {
-        console.error('Error deleting home:', error);
-        alert('Failed to delete home. Please try again.');
+        const reviewsData = await fetchReviewsByHomeId(id);
+        setReviews(reviewsData);
+      } catch (err) {
+        setError("Failed to fetch reviews");
       }
-    }
-  };
+    };
+    fetchHome();
+    fetchHomeReviews();
+  }, [id]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   if (!home) {
     return <div>Loading...</div>;
   }
 
-  const images: string[] = [
-    "/1brNyali/IMG-20240504-WA0025.jpg",
-    "/1brNyali/IMG-20240504-WA0026.jpg",
-    "/1brNyali/IMG-20240504-WA0028.jpg",
-    "/1brNyali/IMG-20240504-WA0030.jpg",
-    "/1brNyali/IMG-20240504-WA0033.jpg",
-    "/1brNyali/IMG-20240504-WA0031.jpg",
-    "/1brNyali/IMG-20240504-WA0032.jpg",
-  ];
+  const images: string[] = home.imageUrl
+    ? home.imageUrl.map((img) => `http://localhost:5000${img}`)
+    : [];
 
-  const NoOfBedroom = "1";
+  const name = home.name;
+  const NoOfBedroom = home.bedrooms;
   const NoOfGuests = "2";
-  const NoOfBeds = "1";
+  const NoOfBeds = home.beds;
 
   return (
     <div className="home-more">
       <div className="gallery-carousel">
-        <CustomCarousel images={images} name={home.name} />
+        <CustomCarousel images={images} name={name} />
       </div>
       <div className="gallery-collage">
-        <Collage images={images} name={home.name} />
+        <Collage images={images} name={name} />
       </div>
       <div className="des">
         <div className="des-sc">
@@ -105,22 +114,58 @@ const HomePage = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
           <hr />
-          <div className="amenities-list">
-            <h3>Amenities</h3>
+          <div className={styles.amenities}>
+            <h3>What this place offers</h3>
             <ul>
               {home.amenities?.map((amenity, index) => (
                 <li key={index}>{amenity}</li>
               ))}
             </ul>
           </div>
-        </div>
-        <div className={styles.paymn}>
-          <Payment price={home.price} description={home.description} />
-          <div className={styles.btn}>
-            <a href={`/homes/update/${home._id}`}>Update home</a>
-            <button onClick={handleDelete}>Delete home</button>
+          <hr />
+          <div>
+            <OverallRating
+              rating={parseFloat(home.rating)}
+              totalReviews={reviews.length}
+            />
+            <h2>Most Liked Comments</h2>
+            {reviews.map((review, index) => (
+              <ReviewCard
+                key={index}
+                userName={review.user || "Unknown User"}
+                date={review.date}
+                rating={review.rating}
+                comment={review.comment}
+                likes={298} // You can add likes logic later or mock for now
+              />
+            ))}
           </div>
         </div>
+        <div>
+          <Payment
+            homeId={home._id}
+            price={home.price}
+            description={home.description}
+          />
+          
+        </div>
+      </div>
+      <hr />
+      <div>
+        <HostProfile
+          homeId={id}
+          hostName="Karl And Salha"
+          profilePicture="/path-to-profile.jpg"
+          rating={5}
+          homesHosting={5}
+          work="Photographer and Singer"
+          languages="English and Swahili"
+          description="We are here to make your stay as memorable as possible."
+          coHostName="Salha"
+          coHostPicture="/path-to-cohost.jpg"
+          responseRate="100%"
+          responseTime="within an hour"
+        />
       </div>
       <hr />
       <Rules />

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ErrorMessage from "@/app/ui/errorMessage";
 import styles from "./payment.module.css";
+import { deleteHome } from "@/app/homes/api";
 
 interface CardProps {
   price: string; // Assuming this is a string for display purposes
@@ -96,7 +97,10 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/booking", bookingData);
+      const response = await axios.post(
+        "http://localhost:5000/api/booking",
+        bookingData
+      );
       console.log(response.data); // Handle success response
       // Optionally reset form and state after successful booking
       setClientName("");
@@ -176,6 +180,19 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
         </form>
       </div>
       <div className={styles.story}>{description}</div>
+      <div className={styles.btns}>
+        <a
+          href={`/homes/update/${homeId}`}
+          role="button"
+          className={styles.updateBtn}
+        >
+          Update Home
+        </a>
+        <button className={styles.deleteBtn} disabled>
+          Delete Home
+        </button>
+      </div>
+
       <ErrorMessage key={key} message={message} type={type} />
 
       {/* Sliding drawer for additional client details */}

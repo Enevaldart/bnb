@@ -2,18 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Card from '@/app/ui/userHomescard/homeCard';
+import Card from '@/app/ui/card';
 import { getUserHomes } from '@/app/homes/api';
-
-interface Home {
-  _id: string;
-  name: string;
-  location: string;
-  description: string;
-  price: number;
-  rating: number;
-  imageUrl: string[];
-}
 
 export default function UserHomes() {
   const [homes, setHomes] = useState<Home[]>([]);
@@ -57,7 +47,7 @@ export default function UserHomes() {
               region={home.location}
               specific={home.description}
               price={home.price}
-              imageUrl={home.imageUrl[0]}
+              imageUrl={home.imageUrl?.[0]}
             />
           ))}
         </div>
