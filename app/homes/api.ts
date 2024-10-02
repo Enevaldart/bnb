@@ -1,11 +1,22 @@
-// app/homes/api.ts
-
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/homes";
 
 export const fetchHomes = async () => {
   const response = await axios.get(API_URL);
+  return response.data;
+};
+
+// New searchHomes function to implement the search functionality
+export const searchHomes = async (params) => {
+  const response = await axios.get(`${API_URL}/search`, {
+    params: {
+      location: params.location,
+      minPrice: params.minPrice,
+      maxPrice: params.maxPrice,
+      name: params.name,
+    },
+  });
   return response.data;
 };
 
