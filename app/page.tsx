@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Card from "@/app/ui/card";
 import { fetchHomes, searchHomes } from "./homes/api";
 import "./globals.css";
-import Navbar from "@/app/ui/navbar"; // Import your existing Navbar component
+import Navbar from "@/app/ui/navbar";
 
 export default function Home() {
   const [homes, setHomes] = useState([]); // For all homes

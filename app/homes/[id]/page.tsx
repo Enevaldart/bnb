@@ -12,8 +12,13 @@ import ReviewCard from "@/app/ui/reviewcard/reviewcard";
 import OverallRating from "@/app/ui/overalRating/overalRating";
 import HostProfile from "@/app/ui/hostProfile/hostProfile";
 import { MdOutlineBedroomParent } from "react-icons/md";
-import { getHomeById, fetchReviewsByHomeId } from "@/app/homes/api";
-import styles from "./home.module.css"
+import {
+  getHomeById,
+  fetchReviewsByHomeId,
+  searchHomes,
+} from "@/app/homes/api";
+import styles from "./home.module.css";
+import Navbar from "@/app/ui/navbar";
 
 interface Home {
   _id: string;
@@ -73,7 +78,9 @@ const HomePage = ({ params }: { params: { id: string } }) => {
     return <div>Loading...</div>;
   }
 
-  const images: string[] = home.imageUrl ? home.imageUrl.map((img) => `http://localhost:5000${img}`) : [];
+  const images: string[] = home.imageUrl
+    ? home.imageUrl.map((img) => `http://localhost:5000${img}`)
+    : [];
 
   const name = home.name;
   const NoOfBedroom = home.bedrooms;
@@ -93,7 +100,12 @@ const HomePage = ({ params }: { params: { id: string } }) => {
           <h2>
             {home.name}, {home.location}
           </h2>
-          <Assets guests={NoOfGuests} bedroom={NoOfBedroom} bed={NoOfBeds} bath="2" />
+          <Assets
+            guests={NoOfGuests}
+            bedroom={NoOfBedroom}
+            bed={NoOfBeds}
+            bath="2"
+          />
           <hr />
           <h2 className="section-bed">Where you&apos;ll sleep</h2>
           <div className="bed">
@@ -119,12 +131,15 @@ const HomePage = ({ params }: { params: { id: string } }) => {
           </div>
           <hr />
           <div>
-            <OverallRating rating={parseFloat(home.rating)} totalReviews={reviews.length} />
+            <OverallRating
+              rating={parseFloat(home.rating)}
+              totalReviews={reviews.length}
+            />
             <h2>Most Liked Comments</h2>
             {reviews.map((review, index) => (
               <ReviewCard
                 key={index}
-                userName={review.user || 'Unknown User'}
+                userName={review.user || "Unknown User"}
                 date={review.date}
                 rating={review.rating}
                 comment={review.comment}
@@ -134,7 +149,11 @@ const HomePage = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         <div>
-          <Payment homeId={home._id} price={home.price} description={home.description} />
+          <Payment
+            homeId={home._id}
+            price={home.price}
+            description={home.description}
+          />
         </div>
       </div>
       <hr />
