@@ -42,7 +42,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
       </div>
       <div className={styles.comment}>{comment}</div>
       <div className={styles.footer}>
-        <p>{likes} Liked</p>
+        <p>{date}</p>
       </div>
     </div>
   );

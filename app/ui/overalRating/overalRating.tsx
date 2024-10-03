@@ -1,5 +1,5 @@
-import React from "react";
 import styles from "./overalRating.module.css";
+import {FaChevronDown} from 'react-icons/fa'
 
 interface OverallRatingProps {
   rating: number;
@@ -33,6 +33,7 @@ const OverallRating: React.FC<OverallRatingProps> = ({
         </div>
         <p className={styles.reviewCount}>({totalReviews} Reviews)</p>
       </div>
+      <FaChevronDown className="chevron-down" />
     </div>
   );
 };

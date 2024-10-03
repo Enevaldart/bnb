@@ -45,6 +45,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
   const [home, setHome] = useState<Home | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [commentsOn, setCommentsOn] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -131,21 +132,30 @@ const HomePage = ({ params }: { params: { id: string } }) => {
             </div>
             <hr />
             <div>
-              <OverallRating
-                rating={parseFloat(home.rating)}
-                totalReviews={reviews.length}
-              />
-              <h2>Most Liked Comments</h2>
-              {reviews.map((review, index) => (
-                <ReviewCard
-                  key={index}
-                  userName={review.user || "Unknown User"}
-                  date={review.date}
-                  rating={review.rating}
-                  comment={review.comment}
-                  likes={298} // You can add likes logic later or mock for now
+              <div onClick={() => setCommentsOn(prev => !prev)}>
+                <OverallRating
+                  rating={parseFloat(home.rating)}
+                  totalReviews={reviews.length}
                 />
-              ))}
+              </div>
+
+              {commentsOn ? (
+                <div className="comments-container">
+                  <h2>Most Liked Comments</h2>
+                  {reviews.map((review, index) => (
+                    <ReviewCard
+                      key={index}
+                      userName={review.user || "Unknown User"}
+                      date={new Date(review.date).toLocaleString()}
+                      rating={review.rating}
+                      comment={review.comment}
+                      likes={298} // You can add likes logic later or mock for now
+                    />
+                  ))}
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <div>
