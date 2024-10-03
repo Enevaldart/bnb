@@ -1,3 +1,18 @@
 .body{
-    border: none;
+     position: relative;
+     display: flex;
+     align-items: center;
+     min-height: 90vh;
+}
+
+.nav1{
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.children{
+    margin-top: 85px;
+    width: 100vw;
 }
