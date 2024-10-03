@@ -21,10 +21,10 @@ const Navbar = () => {
             Booking List
           </a>
           <a
-            className={activeTab === 'management' ? styles.active : ''}
-            onClick={() => handleTabClick('management')} href="/dashboard/management"
+            className={activeTab === 'myHomes' ? styles.active : ''}
+            onClick={() => handleTabClick('myHomes')} href="/dashboard/myHomes"
           >
-            Management
+            My Homes
           </a>
           <a
             className={activeTab === 'others' ? styles.active : ''}

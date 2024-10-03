@@ -44,8 +44,13 @@
 
 .table td:has(br){
     text-wrap: nowrap;
-    max-width: 110px;
     overflow: hidden;
+    width: 300px;
+}
+
+.table td:has(button){
+   width: 100px;
+   text-align: right;
 }
 
 .evenRow {
@@ -60,6 +65,7 @@
 .cell {
   padding: 16px;
   color: #374151;
+  width: fit-content;
 }
 
 .totalPrice {
@@ -78,4 +84,90 @@
  .cell{
     padding: 5px 8px;
  }
+}
+
+.container {
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeader {
+  background-color: #f8f9fa;
+}
+
+.headerCell {
+  padding: 10px;
+  font-weight: bold;
+}
+
+.tableRow {
+  transition: background-color 0.3s ease;
+}
+
+.evenRow {
+  background-color: #f9f9f9;
+}
+
+.oddRow {
+  background-color: #ffffff;
+}
+
+.cell {
+  padding: 10px;
+  text-align: left;
+}
+
+.totalPrice {
+  color: #ff5a5f;
+}
+
+.menuWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.threeDots {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  padding: 10px 15px;
+  background-color: transparent;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.menuItem:hover {
+  background-color: #f1f1f1;
 }
