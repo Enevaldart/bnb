@@ -1,10 +1,15 @@
 "use client";
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import styles from './navbar.module.css';
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleAddHomeClick = () => {
+    router.push('/homes/addHome');
+  };
 
   return (
     <div className={styles.navbar}>
@@ -29,7 +34,7 @@ const Navbar = () => {
         </a>
       </div>
       <div className={styles.addButton}>
-        <button className={styles.addHome}>+ Add Home</button>
+      <button className={styles.addHome} onClick={handleAddHomeClick}>+ Add Home</button>
       </div>
     </div>
   );

@@ -180,18 +180,6 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
         </form>
       </div>
       <div className={styles.story}>{description}</div>
-      <div className={styles.btns}>
-        <a
-          href={`/homes/update/${homeId}`}
-          role="button"
-          className={styles.updateBtn}
-        >
-          Update Home
-        </a>
-        <button className={styles.deleteBtn} disabled>
-          Delete Home
-        </button>
-      </div>
 
       <ErrorMessage key={key} message={message} type={type} />
 

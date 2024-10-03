@@ -18,9 +18,12 @@
 }
 
 .active {
-  color: var(--color-orange);
   border-bottom: 3px solid var(--color-orange);
   padding-bottom: 16px;
+}
+
+.tabs a.active{
+  color: var(--color-orange);
 }
 
 .tabs a:hover {
