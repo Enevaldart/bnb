@@ -1,5 +1,3 @@
-// app/ui/navbar.jsx
-
 "use client";
 
 import "../globals.css";

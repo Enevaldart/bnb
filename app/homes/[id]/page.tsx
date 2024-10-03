@@ -5,7 +5,6 @@ import Payment from "@/app/ui/payment/payment";
 import "@/app/globals.css";
 import Collage from "@/app/ui/collages";
 import Assets from "@/app/ui/mainAssets";
-import ResponsiveSearch from "@/app/ui/navbarHomes/navbar";
 import React, { useEffect, useState } from "react";
 import { MdOutlineBed } from "react-icons/md";
 import CustomCarousel from "@/app/ui/carousel";
@@ -19,7 +18,6 @@ import {
   searchHomes,
 } from "@/app/homes/api";
 import styles from "./home.module.css";
-import Navbar from "@/app/ui/navbar";
 
 interface Home {
   _id: string;
@@ -90,8 +88,6 @@ const HomePage = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      <ResponsiveSearch />
-
       <div className="home-more">
         <div className="gallery-carousel">
           <CustomCarousel images={images} name={name} />
