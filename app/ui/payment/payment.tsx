@@ -7,13 +7,13 @@ import styles from "./payment.module.css";
 import { deleteHome } from "@/app/homes/api";
 
 interface CardProps {
-  price: string; // Assuming this is a string for display purposes
+  price: string;
   description: string;
-  homeId: string; // Add homeId as a prop
+  homeId: string;
 }
 
 const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
-  const pricePerNight = parseFloat(price); // Convert price to a number
+  const pricePerNight = parseFloat(price);
   const [checkIn, setCheckIn] = useState<string>("");
   const [checkOut, setCheckOut] = useState<string>("");
   const [nights, setNights] = useState<number | null>(null);
@@ -29,14 +29,26 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
   const [clientEmail, setClientEmail] = useState("");
   const [clientPhone, setClientPhone] = useState("");
 
-  const [drawerOpen, setDrawerOpen] = useState(false); // Drawer state
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Function to set default dates on component mount
+  useEffect(() => {
+    const today = new Date();
+    const todayDateString = today.toISOString().split("T")[0]; // Today's date
+    const checkOutDate = new Date(today);
+    checkOutDate.setDate(today.getDate() + 5); // Check-out 5 days later
+    const checkOutDateString = checkOutDate.toISOString().split("T")[0];
+
+    setCheckIn(todayDateString); // Set default check-in date
+    setCheckOut(checkOutDateString); // Set default check-out date
+  }, []);
 
   const handleError = (type: "info" | "warning" | "error") => {
     setMessage(
       "Online reservation is not available at the moment! Please contact +254115 425 094 on WhatsApp to complete your room reservation. Thank you"
     );
     setType(type);
-    setKey((prevKey) => prevKey + 1); // Update key to force re-render
+    setKey((prevKey) => prevKey + 1);
   };
 
   const handleCheckInChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,11 +59,10 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
     setCheckOut(event.target.value);
   };
 
-  // Open the drawer only when dates are selected
   const handleCheckReservation = (e: React.MouseEvent) => {
     e.preventDefault();
     if (checkIn && checkOut) {
-      setDrawerOpen(true); // Open the drawer if dates are selected
+      setDrawerOpen(true);
     }
   };
 
@@ -63,25 +74,24 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
       const differenceInDays = differenceInTime / (1000 * 3600 * 24);
       setNights(differenceInDays > 0 ? differenceInDays : null);
     } else {
-      setNights(null); // Reset nights if dates are not set
+      setNights(null);
     }
   }, [checkIn, checkOut]);
 
   useEffect(() => {
     if (nights !== null) {
-      const baseTotal = nights * pricePerNight; // Calculate total amount before convenience fee
+      const baseTotal = nights * pricePerNight;
       setTotalAmount(baseTotal);
-      const fee = baseTotal * 0.04; // Calculate convenience fee (4%)
+      const fee = baseTotal * 0.04;
       setConvenienceFee(fee);
-      setFinalTotal(baseTotal + fee); // Final total amount
+      setFinalTotal(baseTotal + fee);
     } else {
       setTotalAmount(0);
       setConvenienceFee(0);
-      setFinalTotal(0); // Reset all amounts if nights are null
+      setFinalTotal(0);
     }
   }, [nights, pricePerNight]);
 
-  // Function to handle the booking submission
   const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -101,15 +111,14 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
         "http://localhost:5000/api/booking",
         bookingData
       );
-      console.log(response.data); // Handle success response
-      // Optionally reset form and state after successful booking
+      console.log(response.data);
       setClientName("");
       setClientEmail("");
       setClientPhone("");
       setCheckIn("");
       setCheckOut("");
       setNights(null);
-      setDrawerOpen(false); // Close the drawer after booking
+      setDrawerOpen(false);
     } catch (error) {
       console.error(error);
       handleError("error");
@@ -147,7 +156,6 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
               </div>
             </div>
 
-            {/* Display the payment summary below the form if valid dates are selected */}
             {nights !== null && (
               <div className={styles.pay}>
                 <li>
@@ -172,7 +180,7 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
 
             <button
               onClick={handleCheckReservation}
-              disabled={!nights} // Disable the button if nights aren't valid
+              disabled={!nights}
             >
               Check reservation
             </button>
@@ -183,7 +191,6 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
 
       <ErrorMessage key={key} message={message} type={type} />
 
-      {/* Sliding drawer for additional client details */}
       <div
         className={`${styles.drawer} ${drawerOpen ? styles.drawerOpen : ""}`}
       >
