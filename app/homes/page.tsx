@@ -1,37 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Card from "@/app/ui/card";
-import { getUserHomes, searchHomes } from "@/app/homes/api";
+import { fetchHomes, searchHomes } from "./api";
 import Navbar from "@/app/ui/navbar";
 
-export default function UserHomes() {
-  const [homes, setHomes] = useState<Home[]>([]);
+export default function Home() {
+  const [homes, setHomes] = useState([]); // For all homes
   const [searchResults, setSearchResults] = useState([]); // For search results
-  const [searchStarted, setSearchStarted] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const router = useRouter();
+  const [searchStarted, setSearchStarted] = useState(false); // Flag to track if search has started
 
+  // Fetch homes on initial load
   useEffect(() => {
-    async function fetchUserHomes() {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          router.push("/login");
-          return;
-        }
-        const data = await getUserHomes(token);
-        setHomes(data);
-      } catch (err) {
-        setError("Failed to fetch homes. Please try again.");
-      } finally {
-        setLoading(false);
-      }
+    async function getHomes() {
+      const data = await fetchHomes();
+      setHomes(data);
     }
-    fetchUserHomes();
-  }, [router]);
+    getHomes();
+  }, []);
 
   // Function to handle search
   const handleSearch = async (params) => {
@@ -48,12 +34,9 @@ export default function UserHomes() {
     ),
   ];
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
-  if (error)
-    return <div className="text-center py-10 text-red-500">{error}</div>;
-
   return (
     <>
+      {/* Navbar with integrated search functionality */}
       <Navbar onSearch={handleSearch} />
 
       <main className="flex min-h-screen flex-col items-center justify-between p-5">
@@ -65,7 +48,7 @@ export default function UserHomes() {
                 <Card
                   key={home._id}
                   rate={home.rating}
-                  hrefLink={`./userHomes/${home._id}`}
+                  hrefLink={`./homes/${home._id}`}
                   county={home.name}
                   region={home.location}
                   specific={home.description}
@@ -78,7 +61,7 @@ export default function UserHomes() {
                 <Card
                   key={home._id}
                   rate={home.rating}
-                  hrefLink={`./userHomes/${home._id}`}
+                  hrefLink={`./homes/${home._id}`}
                   county={home.name}
                   region={home.location}
                   specific={home.description}

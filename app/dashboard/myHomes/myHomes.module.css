@@ -1,0 +1,81 @@
+/* Container for the table */
+.container {
+  padding: 24px;
+}
+
+/* Title styling */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+/* Error message styling */
+.error {
+  color: red;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+/* Table header styling */
+.tableHeader {
+  background-color: #f5f5f5;
+}
+
+.headerCell {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: bold;
+  color: #6b7280; /* Gray text */
+}
+
+/* Table row styling */
+.tableRow {
+  border-top: 1px solid #e5e7eb;
+}
+
+.table td:has(br){
+    text-wrap: nowrap;
+    max-width: 110px;
+    overflow: hidden;
+}
+
+.evenRow {
+  background-color: #f9fafb;
+}
+
+.oddRow {
+  background-color: #ffffff;
+}
+
+/* Table cell styling */
+.cell {
+  padding: 16px;
+  color: #374151;
+}
+
+.totalPrice {
+  font-weight: 600;
+}
+
+@media (max-width: 740px) {
+ .scrollable{
+    width: 100%;
+    overflow-x: scroll;
+ }
+ .scrollable table{
+    min-width: 740px;
+    font-size: 14px;
+ }
+ .cell{
+    padding: 5px 8px;
+ }
+}
