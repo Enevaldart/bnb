@@ -10,9 +10,16 @@
     top: 0;
     width: 100vw;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    z-index: 99;
 }
 
 .children{
     margin-top: 85px;
     width: 100vw;
+}
+
+@media (max-width: 750px) {
+    .navbar1{
+        top: 10px;
+    }
 }

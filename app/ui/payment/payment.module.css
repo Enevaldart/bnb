@@ -224,12 +224,18 @@
   .cheque {
     box-shadow: none;
   }
+  .check input {
+    padding-right: 5px;
+  }
   .check {
     width: auto;
+    background: transparent;
   }
   .form {
     padding: 0;
     display: inline;
+    width: auto;
+    margin: 0;
   }
   .form div {
     padding: 0;
