@@ -60,7 +60,7 @@ const MobileMenu = () => {
               <a href="#">{username}</a>
             </li>
             <li>
-              <a href="/homes/userHomes">My Homes</a>
+              <a href="/dashboard">Dashboard</a>
             </li>
           </>
         ) : (

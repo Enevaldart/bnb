@@ -15,7 +15,7 @@
 
 .reviewlists {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   gap: 0;
   width: auto;
   height: 80vh;

@@ -21,7 +21,7 @@ const Card: React.FC<CardProps> = ({ county, hrefLink, specific, region, price, 
   const imageSrc = imageUrl ? `http://localhost:5000${imageUrl}` : '';
   return (
     <div className="card bg-white rounded-lg overflow-hidden shadow-md">
-      <a href={hrefLink} target="blank">
+      <a href={hrefLink}>
       {imageUrl && (
         <img className="w-full h-40 object-cover" src={imageSrc} alt={county} />
       )}
