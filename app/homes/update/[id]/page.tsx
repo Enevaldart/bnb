@@ -39,6 +39,8 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
+  const baseURL = "http://localhost:5000"; 
+
   useEffect(() => {
     const fetchHome = async () => {
       try {
@@ -271,11 +273,10 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
 
               {/* Display Existing Images */}
               <div className={styles.existingImages}>
-                <h3>Existing Images</h3>
                 {homeData.imageUrl.length > 0 &&
                   homeData.imageUrl.map((image, index) => (
                     <div key={index} className={styles.imagePreview}>
-                      <img src={image} alt={`Existing ${index}`} />
+                      <img src={`${baseURL}${image}`} alt={`Existing ${index}`} />
                       <button
                         type="button"
                         onClick={() => handleExistingImageRemove(image)}
