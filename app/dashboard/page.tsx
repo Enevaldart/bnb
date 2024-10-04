@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./dashboard.module.css";
+import { FaEnvelope } from "react-icons/fa";
 
 interface Booking {
   _id: string;
@@ -20,6 +21,7 @@ interface Booking {
 const Bookings: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [sendingReview, setSendingReview] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -45,6 +47,22 @@ const Bookings: React.FC = () => {
     fetchBookings();
   }, []);
 
+  // Function to handle sending review link
+  const sendReviewLink = async (bookingId: string) => {
+    setSendingReview(bookingId); // Set sending state
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/booking/send-review-link/${bookingId}`
+      );
+      alert("Review link sent successfully!");
+    } catch (err) {
+      console.error("Error sending review link:", err);
+      alert("Failed to send review link.");
+    } finally {
+      setSendingReview(null);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Bookings List</h1>
@@ -61,6 +79,8 @@ const Bookings: React.FC = () => {
                 <th className={styles.headerCell}>Check-in Date</th>
                 <th className={styles.headerCell}>Check-out Date</th>
                 <th className={styles.headerCell}>Total Price</th>
+                <th className={styles.headerCell}>Actions</th>{" "}
+                {/* Add actions header */}
               </tr>
             </thead>
             <tbody>
@@ -89,6 +109,20 @@ const Bookings: React.FC = () => {
                   </td>
                   <td className={`${styles.cell} ${styles.totalPrice}`}>
                     Ksh {booking.totalPrice.toFixed(2)}
+                  </td>
+                  <td className={styles.cell}>
+                    {/* Email Icon to send review link */}
+                    <button
+                      className={styles.sendReviewButton}
+                      onClick={() => sendReviewLink(booking._id)}
+                      disabled={sendingReview === booking._id} // Disable button while sending
+                    >
+                      {sendingReview === booking._id ? (
+                        "Sending..."
+                      ) : (
+                        <FaEnvelope />
+                      )}
+                    </button>
                   </td>
                 </tr>
               ))}
