@@ -23,7 +23,7 @@ const MyHomes = () => {
   const [homes, setHomes] = useState<Home[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [menuOpen, setMenuOpen] = useState<string | null>(null); // Track the open menu for each home
+  const [menuOpen, setMenuOpen] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
