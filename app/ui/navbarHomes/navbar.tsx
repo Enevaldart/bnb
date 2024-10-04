@@ -3,6 +3,7 @@
 import { RiSearch2Line } from "react-icons/ri";
 import styles from "./navbar.module.css";
 import Image from "next/image";
+import MobileMenu from "@/app/ui/menu/menu";
 import { useState } from "react";
 
 const ResponsiveSearch = () => {
@@ -47,9 +48,7 @@ const ResponsiveSearch = () => {
         <a href="/homes/addHome" className={styles.airbnbLink}>
           Airbnb your home
         </a>
-        <button className={styles.menuButton}>
-          <span className={styles.menuIcon}>&#9776;</span>
-        </button>
+        <MobileMenu />
       </div>
     </nav>
   );

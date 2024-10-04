@@ -14,6 +14,8 @@ const AddHomeForm = () => {
   const [beds, setbeds] = useState("");
   const [images, setImages] = useState([]);
   const [amenities, setAmenities] = useState([]);
+  const [maxGuests, setMaxGuests] = useState("");
+  const [isGuestNumberFixed, setIsGuestNumberFixed] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -49,6 +51,8 @@ const AddHomeForm = () => {
     formData.append("bedrooms", bedrooms);
     formData.append("beds", beds);
     formData.append("price", price);
+    formData.append("maxGuests", maxGuests);
+    formData.append("isGuestNumberFixed", isGuestNumberFixed);
     formData.append("amenities", JSON.stringify(amenities));
 
     images.forEach((image) => {
@@ -157,6 +161,28 @@ const AddHomeForm = () => {
                   onChange={(e) => setbeds(e.target.value)}
                   required
                 />
+              </div>
+            </div>
+            <div>
+              <div>
+                <label>Maximum Guests</label>
+                <input
+                  type="number"
+                  placeholder="Max Guests"
+                  value={maxGuests}
+                  onChange={(e) => setMaxGuests(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label>
+                  Is Guest Number Fixed?
+                  <input
+                    type="checkbox"
+                    checked={isGuestNumberFixed}
+                    onChange={(e) => setIsGuestNumberFixed(e.target.checked)}
+                  />
+                </label>
               </div>
             </div>
             <div>
