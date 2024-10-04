@@ -28,7 +28,7 @@ const Card: React.FC<CardProps> = ({ county, hrefLink, specific, region, price, 
       <div className="desc">
         <h2>{county}</h2><p className="tit"><i><GoStarFill /></i>{rate}</p>
         <p className="p">{region}</p>
-        <p className="p">{specific}</p>
+        <p className="p line-clamp-2 text-gray-600">{specific}</p>
         <p className="price">Ksh {price}<span>night</span></p>
       </div>
       </a>

@@ -35,6 +35,7 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
   });
 
   const [images, setImages] = useState<File[]>([]);
+  const [deleteImages, setDeleteImages] = useState<string[]>([]); // Tracks images to be deleted
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -94,6 +95,14 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
     setImages(images.filter((_, index) => index !== indexToRemove));
   };
 
+  const handleExistingImageRemove = (imageUrl: string) => {
+    setDeleteImages([...deleteImages, imageUrl]);
+    setHomeData({
+      ...homeData,
+      imageUrl: homeData.imageUrl.filter((url) => url !== imageUrl),
+    });
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -118,6 +127,8 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
           formData.append("images", image);
         });
       }
+
+      formData.append("deleteImages", JSON.stringify(deleteImages));
 
       const response = await axios.put(
         `http://localhost:5000/api/homes/${id}`,
@@ -251,6 +262,23 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
                       <button
                         type="button"
                         onClick={() => handleImageRemove(index)}
+                      >
+                        <IoCloseSharp />
+                      </button>
+                    </div>
+                  ))}
+              </div>
+
+              {/* Display Existing Images */}
+              <div className={styles.existingImages}>
+                <h3>Existing Images</h3>
+                {homeData.imageUrl.length > 0 &&
+                  homeData.imageUrl.map((image, index) => (
+                    <div key={index} className={styles.imagePreview}>
+                      <img src={image} alt={`Existing ${index}`} />
+                      <button
+                        type="button"
+                        onClick={() => handleExistingImageRemove(image)}
                       >
                         <IoCloseSharp />
                       </button>
