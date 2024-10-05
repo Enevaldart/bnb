@@ -16,6 +16,7 @@ interface Home {
   beds: string;
   amenities: string[];
   imageUrl: string[];
+  maxGuests: string;
 }
 
 const UpdateHomePage = ({ params }: { params: { id: string } }) => {
@@ -32,14 +33,17 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
     beds: "",
     amenities: [],
     imageUrl: [],
+    maxGuests: "",
   });
 
   const [images, setImages] = useState<File[]>([]);
   const [deleteImages, setDeleteImages] = useState<string[]>([]); // Tracks images to be deleted
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFlexibleGuests, setIsFlexibleGuests] = useState(false);
 
-  const baseURL = "http://localhost:5000"; 
+  const baseURL = "http://localhost:5000";
 
   useEffect(() => {
     const fetchHome = async () => {
@@ -124,6 +128,9 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
       formData.append("beds", homeData.beds);
       formData.append("amenities", JSON.stringify(homeData.amenities));
 
+      formData.append("maxGuests", homeData.maxGuests); // Include maxGuests value
+      formData.append("isFlexibleGuests", JSON.stringify(isFlexibleGuests));
+
       if (images.length > 0) {
         images.forEach((image) => {
           formData.append("images", image);
@@ -151,6 +158,7 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
       } else {
         setError("Failed to update home");
       }
+      setIsLoading(false);
     } catch (err) {
       setError("Error updating home");
       console.error(err);
@@ -222,6 +230,29 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
             <div>
+              <div>
+                <label htmlFor="maxGuests">Maximum Guests:</label>
+                <input
+                  type="number"
+                  id="maxGuests"
+                  name="maxGuests"
+                  value={homeData.maxGuests}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={isFlexibleGuests}
+                    onChange={(e) => setIsFlexibleGuests(e.target.checked)}
+                  />
+                  Flexible Guests
+                </label>
+              </div>
+            </div>
+            <div>
               <label htmlFor="amenities">Amenities (comma-separated):</label>
               <input
                 type="text"
@@ -276,7 +307,10 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
                 {homeData.imageUrl.length > 0 &&
                   homeData.imageUrl.map((image, index) => (
                     <div key={index} className={styles.imagePreview}>
-                      <img src={`${baseURL}${image}`} alt={`Existing ${index}`} />
+                      <img
+                        src={`${baseURL}${image}`}
+                        alt={`Existing ${index}`}
+                      />
                       <button
                         type="button"
                         onClick={() => handleExistingImageRemove(image)}
@@ -290,7 +324,9 @@ const UpdateHomePage = ({ params }: { params: { id: string } }) => {
             <div className={styles.submit}>
               {error && <p style={{ color: "red" }}>{error}</p>}
               {success && <p style={{ color: "green" }}>{success}</p>}
-              <button type="submit">Update Home</button>
+              <button type="submit" disabled={isLoading}>
+                {isLoading ? "Updating..." : "Update Home"}
+              </button>
             </div>
           </div>
         </div>

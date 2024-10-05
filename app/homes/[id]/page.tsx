@@ -118,7 +118,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
               <div>
                 <MdOutlineBed />
                 <span>Beds</span>
-                <span>{NoOfBeds} bed</span>
+                <span>{NoOfBeds}</span>
               </div>
             </div>
             <hr />
@@ -132,7 +132,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
             </div>
             <hr />
             <div>
-              <div onClick={() => setCommentsOn(prev => !prev)}>
+              <div onClick={() => setCommentsOn((prev) => !prev)}>
                 <OverallRating
                   rating={parseFloat(home.rating)}
                   totalReviews={reviews.length}
@@ -149,7 +149,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
                       date={new Date(review.date).toLocaleString()}
                       rating={review.rating}
                       comment={review.comment}
-                      likes={298} // You can add likes logic later or mock for now
+                      likes={0}
                     />
                   ))}
                 </div>

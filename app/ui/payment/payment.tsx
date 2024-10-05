@@ -1,10 +1,10 @@
 "use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ErrorMessage from "@/app/ui/errorMessage";
 import styles from "./payment.module.css";
-import { deleteHome } from "@/app/homes/api";
 
 interface CardProps {
   price: string;
@@ -30,6 +30,30 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
   const [clientPhone, setClientPhone] = useState("");
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // State for max guests and whether it's flexible
+  const [maxGuests, setMaxGuests] = useState<number>(2);
+  const [guests, setGuests] = useState<number>(2); // Default guests is 2
+  const [isMaxGuestsFixed, setIsMaxGuestsFixed] = useState<boolean>(true); // Assume fixed by default
+
+  // Fetch maxGuests from API when component mounts
+  useEffect(() => {
+    async function fetchMaxGuests() {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/homes/${homeId}/maxGuests`
+        );
+        console.log(response.data.maxGuests);
+
+        setMaxGuests(response.data.maxGuests || 2); // Set fetched max guests
+        setGuests(2); // Set default to 2 guests
+        setIsMaxGuestsFixed(response.data.isMaxGuestsFixed || true);
+      } catch (error) {
+        console.error("Error fetching max guests:", error);
+      }
+    }
+    fetchMaxGuests();
+  }, [homeId]);
 
   // Function to set default dates on component mount
   useEffect(() => {
@@ -59,9 +83,17 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
     setCheckOut(event.target.value);
   };
 
+  const handleGuestsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGuests(parseInt(event.target.value));
+  };
+
   const handleCheckReservation = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (checkIn && checkOut) {
+    if (
+      checkIn &&
+      checkOut &&
+      (isMaxGuestsFixed ? guests <= maxGuests : true)
+    ) {
       setDrawerOpen(true);
     }
   };
@@ -103,6 +135,7 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
       checkOut,
       totalPrice: finalTotal,
       nights,
+      guests,
       homeId,
     };
 
@@ -152,7 +185,18 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
               </div>
               <div className="col-span-2 row-span-1">
                 <label>Guests</label>
-                <input type="text" value="1 Guest" readOnly />
+                <input
+                  type="number"
+                  value={guests}
+                  onChange={handleGuestsChange}
+                  min="1"
+                  max={isMaxGuestsFixed ? maxGuests : undefined}
+                />
+                {guests > maxGuests && isMaxGuestsFixed && (
+                  <span className={styles.error}>
+                    Maximum guests allowed: {maxGuests}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -180,7 +224,7 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
 
             <button
               onClick={handleCheckReservation}
-              disabled={!nights}
+              disabled={guests > maxGuests && isMaxGuestsFixed}
             >
               Check reservation
             </button>

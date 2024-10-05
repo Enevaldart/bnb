@@ -18,7 +18,7 @@ const Assets: React.FC<CardProps> = ({ guests, bedroom, bed, bath }) => {
     <>
     <ul className="assets">
         <li>{bedroom} Bedroom</li>
-        <li>{bed} Beds</li>
+        <li>{bed}</li>
       </ul>
     </>
   );
