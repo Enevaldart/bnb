@@ -142,7 +142,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
 
               {commentsOn ? (
                 <div className="comments-container">
-                  <h2>Most Liked Comments</h2>
+                  <h2>Most Recent Comments</h2>
                   {reviews.map((review, index) => (
                     <ReviewCard
                       key={index}
