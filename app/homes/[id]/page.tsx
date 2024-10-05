@@ -30,6 +30,7 @@ interface Home {
   beds: string;
   imageUrl?: string[];
   amenities?: string[];
+  maxGuests: string; 
 }
 
 interface Review {
@@ -84,7 +85,7 @@ const HomePage = ({ params }: { params: { id: string } }) => {
 
   const name = home.name;
   const NoOfBedroom = home.bedrooms;
-  const NoOfGuests = "2";
+  const NoOfGuests = home.maxGuests;
   const NoOfBeds = home.beds;
 
   return (
