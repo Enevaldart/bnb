@@ -23,27 +23,22 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
   const [type, setType] = useState<"info" | "warning" | "error">("info");
   const [key, setKey] = useState(0);
 
-  // Additional form state for client details
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [clientPhone, setClientPhone] = useState("");
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // State for max guests and whether it's flexible
   const [maxGuests, setMaxGuests] = useState<number>(2);
   const [guests, setGuests] = useState<number>(2);
   const [isMaxGuestsFixed, setIsMaxGuestsFixed] = useState<boolean>(false);
 
-  // Fetch maxGuests from API when component mounts
   useEffect(() => {
     async function fetchMaxGuests() {
       try {
         const response = await axios.get(
           `http://localhost:5000/api/homes/${homeId}/maxGuests`
         );
-        console.log(response.data.maxGuests);
-
         setMaxGuests(response.data.maxGuests || 2);
         setGuests(2);
         setIsMaxGuestsFixed(response.data.isMaxGuestsFixed || true);
@@ -54,16 +49,15 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
     fetchMaxGuests();
   }, [homeId]);
 
-  // Function to set default dates on component mount
   useEffect(() => {
     const today = new Date();
-    const todayDateString = today.toISOString().split("T")[0]; // Today's date
+    const todayDateString = today.toISOString().split("T")[0];
     const checkOutDate = new Date(today);
-    checkOutDate.setDate(today.getDate() + 5); // Check-out 5 days later
+    checkOutDate.setDate(today.getDate() + 5);
     const checkOutDateString = checkOutDate.toISOString().split("T")[0];
 
-    setCheckIn(todayDateString); // Set default check-in date
-    setCheckOut(checkOutDateString); // Set default check-out date
+    setCheckIn(todayDateString);
+    setCheckOut(checkOutDateString);
   }, []);
 
   const handleError = (type: "info" | "warning" | "error") => {
@@ -88,11 +82,7 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
 
   const handleCheckReservation = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (
-      checkIn &&
-      checkOut &&
-      (isMaxGuestsFixed ? guests <= maxGuests : true)
-    ) {
+    if (checkIn && checkOut && (isMaxGuestsFixed ? guests <= maxGuests : true)) {
       setDrawerOpen(true);
     }
   };
@@ -137,7 +127,7 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
       guests,
       homeId,
     };
-
+//The problem lies here
     try {
       const response = await axios.post(
         "http://localhost:5000/api/booking",
