@@ -1,5 +1,4 @@
 "use client";
-"use client";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -33,8 +32,8 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
 
   // State for max guests and whether it's flexible
   const [maxGuests, setMaxGuests] = useState<number>(2);
-  const [guests, setGuests] = useState<number>(2); // Default guests is 2
-  const [isMaxGuestsFixed, setIsMaxGuestsFixed] = useState<boolean>(true); // Assume fixed by default
+  const [guests, setGuests] = useState<number>(2);
+  const [isMaxGuestsFixed, setIsMaxGuestsFixed] = useState<boolean>(false);
 
   // Fetch maxGuests from API when component mounts
   useEffect(() => {
@@ -45,8 +44,8 @@ const Payment: React.FC<CardProps> = ({ price, description, homeId }) => {
         );
         console.log(response.data.maxGuests);
 
-        setMaxGuests(response.data.maxGuests || 2); // Set fetched max guests
-        setGuests(2); // Set default to 2 guests
+        setMaxGuests(response.data.maxGuests || 2);
+        setGuests(2);
         setIsMaxGuestsFixed(response.data.isMaxGuestsFixed || true);
       } catch (error) {
         console.error("Error fetching max guests:", error);
