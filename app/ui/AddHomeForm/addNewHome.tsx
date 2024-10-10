@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import styles from "./addNewHome.module.css";
@@ -20,6 +20,7 @@ const AddHomeForm = () => {
   const [success, setSuccess] = useState("");
 
   const router = useRouter();
+  const fileInputRef = useRef(null);
 
   const handleImageChange = (e) => {
     setImages([...images, ...Array.from(e.target.files)]);
@@ -72,14 +73,13 @@ const AddHomeForm = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data", // Important for file uploads
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
       if (response.status === 201) {
         setSuccess("Home added successfully!");
-        // Reset form fields
         setName("");
         setLocation("");
         setDescription("");
@@ -96,6 +96,20 @@ const AddHomeForm = () => {
       setError(err.response?.data?.message || "Failed to add home.");
       setSuccess("");
     }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    setImages((prevImages) => [...prevImages, ...droppedFiles]);
+  };
+
+  const handleImageBoxClick = () => {
+    fileInputRef.current.click();
   };
 
   return (
@@ -210,40 +224,47 @@ const AddHomeForm = () => {
 
           <div className={styles.rightSection}>
             <h2>Upload Images</h2>
-            <div className={styles.imageUpload}>
-              <input
-                type="file"
-                id="images"
-                multiple
-                onChange={handleImageChange}
-                accept="image/*"
-              />
-              <div className={styles.previewContainer}>
-                {images.length > 0 &&
-                  images.map((image, index) => (
-                    <div key={index} className={styles.imagePreview}>
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt={`Preview ${index}`}
-                      />
-                      {/* Image remove button */}
-                      <button
-                        type="button"
-                        className={styles.removeButton}
-                        onClick={() => handleImageRemove(index)}
-                      >
-                        <IoCloseSharp size={20} />
-                      </button>
-                    </div>
-                  ))}
-              </div>
-            </div>
-            <div className={styles.submit}>
-              {error && <p style={{ color: "red" }}>{error}</p>}
-              {success && <p style={{ color: "green" }}>{success}</p>}
-              <button type="submit">Add Home</button>
+          <div
+            className={styles.imageUpload}
+            onClick={handleImageBoxClick}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <input
+              type="file"
+              id="images"
+              multiple
+              onChange={handleImageChange}
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+            />
+            <p>Drag and drop images here, or click to upload</p>
+            <div className={styles.previewContainer}>
+              {images.length > 0 &&
+                images.map((image, index) => (
+                  <div key={index} className={styles.imagePreview}>
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt={`Preview ${index}`}
+                    />
+                    <button
+                      type="button"
+                      className={styles.removeButton}
+                      onClick={() => handleImageRemove(index)}
+                    >
+                      <IoCloseSharp size={20} />
+                    </button>
+                  </div>
+                ))}
             </div>
           </div>
+          <div className={styles.submit}>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            {success && <p style={{ color: "green" }}>{success}</p>}
+            <button type="submit">Add Home</button>
+          </div>
+        </div>
         </div>
       </form>
     </div>
