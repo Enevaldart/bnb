@@ -11,9 +11,6 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
     <div
       className="body">
-      <div className="nav1">
-        <ResponsiveSearch />
-      </div>
       <div className="children">
       {children}
       </div>
