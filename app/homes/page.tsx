@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Card from "@/app/ui/card";
 import { fetchHomes, searchHomes } from "./api";
-import Navbar from "@/app/ui/navbar";
+import Navbar from "@/app/ui/NewNavbar/newNavbar";
 
 export default function Home() {
   const [homes, setHomes] = useState([]); // For all homes
@@ -35,10 +35,8 @@ export default function Home() {
   ];
 
   return (
-    <>
-      {/* Navbar with integrated search functionality */}
-      <Navbar onSearch={handleSearch} />
-
+    <div>
+      <Navbar />
       <main className="flex min-h-screen flex-col items-center justify-between p-5">
         {/* Homes Display */}
         <div className="section-1 flex p-5">
@@ -71,6 +69,6 @@ export default function Home() {
               ))}
         </div>
       </main>
-    </>
+    </div>
   );
 }
